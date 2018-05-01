@@ -33,7 +33,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
         this.mContext = context;
         switch(category){
             case "instructor":
-                suggestions.add("Name"+":\\u0020");
+                suggestions.add("Name");
                 suggestions.add("Office Hours");
                 suggestions.add("Location");
                 suggestions.add("xyz");

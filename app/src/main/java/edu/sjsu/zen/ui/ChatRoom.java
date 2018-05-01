@@ -57,7 +57,6 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         EditText text = (EditText) findViewById(R.id.edittext_chatbox);
         String input_from_user = "";
         input_from_user = text.getText().toString().trim();
-        Log.i("RENCY INPUT FRM USER",input_from_user);
         DateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
         Date date = new Date();
         Messages newMessage =  new Messages();

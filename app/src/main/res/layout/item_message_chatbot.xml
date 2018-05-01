@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="8dp">
+    android:paddingTop="2dp">
 
     <ImageView
         android:id="@+id/chatbot_imageView"
@@ -14,35 +14,35 @@
         android:layout_height="55dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/myBackground"
+        android:layout_marginTop="2dp"
         android:src="@drawable/my_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/chatbot_text_message_body"
         app:layout_constraintHorizontal_bias="0.186"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="8dp" />
 
     <TextView
         android:id="@+id/chatbot_text_message_body"
         android:layout_width="245dp"
-        android:layout_height="wrap_content"
+        android:layout_height="38dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/back"
         android:fontFamily="Roboto"
         android:gravity="left"
         android:maxWidth="500dp"
-        android:padding="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="8dp"
         android:textColor="#263238"
-        android:background="@drawable/back"
-
         android:textSize="16sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="32dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reyclerview_suggestion_list"

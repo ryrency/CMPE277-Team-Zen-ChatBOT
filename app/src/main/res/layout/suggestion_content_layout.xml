@@ -5,15 +5,19 @@
     android:background="@drawable/button_back"
     android:clickable="true">
 
+
     <ImageButton
         android:id="@+id/suggestion_img_btn"
         android:layout_width="55dp"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:src="@drawable/send" />
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:src="@drawable/send"
+        android:scaleType="fitCenter"/>
 
     <TextView
         android:id="@+id/suggestion_tv"
@@ -22,9 +26,11 @@
         android:clickable="true"
         android:gravity="center"
         android:text="Instructor Details"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:textColor="@color/buttonText"
+        android:textSize="14dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:textAlignment="center" />
 </LinearLayout>
 

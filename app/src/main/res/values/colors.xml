@@ -7,4 +7,5 @@
     <color name="userBackground">#EEEEEE</color>
     <color name="colorblack">#000000</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="buttonText">#757575</color>
 </resources>
