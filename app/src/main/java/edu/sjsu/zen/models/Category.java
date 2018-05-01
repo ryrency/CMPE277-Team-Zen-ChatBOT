@@ -1,6 +1,6 @@
 package edu.sjsu.zen.models;
 
-import edu.sjsu.zen.R;
+//import edu.sjsu.zen.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +34,7 @@ public enum Category {
         } if (categoryTypeInt == INSTRUCTOR_OFFICE_LOCATION.categoryType) {
             return INSTRUCTOR_OFFICE_LOCATION;
         } if (categoryTypeInt == INSTRUCTOR_OFFICE_HOURS.categoryType) {
+            //INSTRUCTOR_OFFICE_HOURS.getSuggestions();
             return INSTRUCTOR_OFFICE_HOURS;
         }
 

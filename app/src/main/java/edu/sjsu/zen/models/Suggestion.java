@@ -1,5 +1,4 @@
 package edu.sjsu.zen.models;
-
 import edu.sjsu.zen.R;
 
 /**
@@ -29,18 +28,6 @@ public enum Suggestion {
     MID_TERM_DUE_DATE("when is mid-term?",R.drawable.office_hours),
     PROJECT_DUE_DATE("when is project due?",R.drawable.office_hours),
     REFERENCE_MATERIALS("reference materials",R.drawable.office_hours);
-
-
-
-
-
-
-
-
-
-
-
-
 
     private final String name;
     private final int iconResId;
