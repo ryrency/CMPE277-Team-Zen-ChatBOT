@@ -1,4 +1,4 @@
-package com.shefalimunjal.chatbot.networking;
+package edu.sjsu.zen.networking;
 
 import android.content.Context;
 

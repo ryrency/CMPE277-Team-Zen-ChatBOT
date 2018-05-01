@@ -1,4 +1,4 @@
-package com.shefalimunjal.chatbot.models;
+package edu.sjsu.zen.models;
 
 import com.shefalimunjal.chatbot.R;
 

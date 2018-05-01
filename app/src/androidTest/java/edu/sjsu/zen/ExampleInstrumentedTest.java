@@ -1,4 +1,4 @@
-package com.shefalimunjal.chatbot;
+package edu.sjsu.zen;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

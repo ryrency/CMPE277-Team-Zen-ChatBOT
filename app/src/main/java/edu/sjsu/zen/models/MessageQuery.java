@@ -1,4 +1,4 @@
-package com.shefalimunjal.chatbot.models;
+package edu.sjsu.zen.models;
 
 public class MessageQuery {
     private String query;

@@ -1,4 +1,4 @@
-package com.shefalimunjal.chatbot.ui;
+package edu.sjsu.zen.ui;
 
 //Don't use this class..This is for reference purpose.
 

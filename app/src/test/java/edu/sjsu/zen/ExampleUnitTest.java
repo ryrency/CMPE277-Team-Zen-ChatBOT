@@ -1,4 +1,4 @@
-package com.shefalimunjal.chatbot;
+package edu.sjsu.zen;
 
 import org.junit.Test;
 
