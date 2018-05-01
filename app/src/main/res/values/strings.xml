@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ChatBot</string>
+    <string name="toast">Please enter something </string>
+</resources>
