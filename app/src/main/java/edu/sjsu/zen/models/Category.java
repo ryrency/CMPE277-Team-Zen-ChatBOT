@@ -1,6 +1,6 @@
 package edu.sjsu.zen.models;
 
-import com.shefalimunjal.chatbot.R;
+import edu.sjsu.zen.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;

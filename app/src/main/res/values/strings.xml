@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">ChatBot</string>
-    <string name="toast">Please enter something </string>
+    <string name="app_name">Zen</string>
+    <string name="introduction">Hi there... Nice to see you!!\nDo you have any questions for me?.</string>
+    <string name="title_activity_chat__room_">Chat_Room_Activity</string>
 </resources>

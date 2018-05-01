@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="imageBackground">#cfcccd</color>
-    <color name="message_box">#077CFB</color>
-    <color name="user_message">#90E9FF</color>
-
+    <color name="colorPrimary">#019be5</color>
+    <color name="colorPrimaryDark">#006db3</color>
+    <color name="colorAccent">#A6DE55</color>
+    <color name="myBackground">#e0f7fa</color>
+    <color name="userBackground">#EEEEEE</color>
+    <color name="colorblack">#000000</color>
+    <color name="colorWhite">#ffffff</color>
 </resources>

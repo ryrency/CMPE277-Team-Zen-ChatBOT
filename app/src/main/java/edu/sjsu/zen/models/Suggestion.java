@@ -1,6 +1,6 @@
 package edu.sjsu.zen.models;
 
-import com.shefalimunjal.chatbot.R;
+import edu.sjsu.zen.R;
 
 /**
  * Suggestions to show in response to a query.
