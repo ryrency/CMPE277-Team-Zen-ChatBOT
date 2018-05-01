@@ -1,4 +1,4 @@
-package edu.sjsu.zen.ui;
+package edu.sjsu.zen.adapter;
 
 //Don't use this class..This is for reference purpose.
 

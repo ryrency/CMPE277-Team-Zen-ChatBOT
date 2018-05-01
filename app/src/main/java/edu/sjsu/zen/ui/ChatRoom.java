@@ -1,4 +1,4 @@
-package edu.sjsu.zen.adapter;
+package edu.sjsu.zen.ui;
 
 
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.EditText;
 
 import edu.sjsu.zen.models.Messages;
 import edu.sjsu.zen.R;
-import edu.sjsu.zen.ui.MessageAdapter;
+import edu.sjsu.zen.adapter.MessageAdapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

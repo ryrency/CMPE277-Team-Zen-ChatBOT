@@ -1,4 +1,4 @@
-package edu.sjsu.zen.ui;
+package edu.sjsu.zen.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

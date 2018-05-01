@@ -1,4 +1,4 @@
-package edu.sjsu.zen.adapter;
+package edu.sjsu.zen.ui;
 
 import android.content.Intent;
 import android.os.Bundle;

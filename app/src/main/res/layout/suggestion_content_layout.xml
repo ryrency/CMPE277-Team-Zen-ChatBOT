@@ -7,10 +7,13 @@
 
     <ImageButton
         android:id="@+id/suggestion_img_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/send"
-        android:clickable="true"/>
+        android:layout_width="55dp"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:src="@drawable/send" />
 
     <TextView
         android:id="@+id/suggestion_tv"
@@ -19,6 +22,9 @@
         android:clickable="true"
         android:gravity="center"
         android:text="Instructor Details"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:textAlignment="center" />
 </LinearLayout>
 

@@ -1,4 +1,4 @@
-package edu.sjsu.zen.ui;
+package edu.sjsu.zen.adapter;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import edu.sjsu.zen.adapter.ChatRoom;
+import edu.sjsu.zen.ui.ChatRoom;
 import edu.sjsu.zen.R;
 
 import java.util.ArrayList;
