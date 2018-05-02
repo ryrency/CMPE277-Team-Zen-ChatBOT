@@ -33,11 +33,11 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
         this.mContext = context;
         switch(category){
             case "instructor":
-                suggestions.add("Name");
-                suggestions.add("Office Hours");
-                suggestions.add("Location");
-                suggestions.add("xyz");
-                suggestions.add("hjhhhh");
+                suggestions.add("Instructor name");
+                suggestions.add("Instructor office hours");
+                suggestions.add("Instructor office location");
+                suggestions.add("Course grading");
+                suggestions.add("Course objective");
                 break;
             default:
                 break;
@@ -95,7 +95,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 
             Log.i("RENCY","creating view holder");
             suggestionText = (TextView)suggestionsView.findViewById(R.id.suggestion_tv);
-            suggestionButton = (ImageButton)suggestionsView.findViewById(R.id.suggestion_img_btn);
+//            suggestionButton = (ImageButton)suggestionsView.findViewById(R.id.suggestion_img_btn);
         }
 
     }
