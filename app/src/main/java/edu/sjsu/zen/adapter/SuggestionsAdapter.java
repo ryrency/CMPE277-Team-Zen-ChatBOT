@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.sjsu.zen.R;
+import edu.sjsu.zen.models.Category;
+import edu.sjsu.zen.models.Suggestion;
 
 /**
  * Created by sajujoseph on 4/30/18.
@@ -21,28 +23,28 @@ import edu.sjsu.zen.R;
 
 public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.ViewHolder> {
 
-    String category;
-    Context mContext;
+    private List<Suggestion> suggestions;
+    private Context Context;
     private List<String> mSuggestions;
 
-    final ArrayList<Object> suggestions = new ArrayList<>();
+    //final ArrayList<Object> suggestions = new ArrayList<>();
 
 
-    public SuggestionsAdapter(String category, Context context){
-        this.category = category;
-        this.mContext = context;
-        switch(category){
-            case "instructor":
-                suggestions.add("Instructor name");
-                suggestions.add("Instructor office hours");
-                suggestions.add("Instructor office location");
-                suggestions.add("Course grading");
-                suggestions.add("Course objective");
-                break;
-            default:
-                break;
-        }
-        Log.i("RENCY","INTO ADATPER");
+    public SuggestionsAdapter(List<Suggestion> suggestions, Context context){
+        this.suggestions = suggestions;
+        this.Context = context;
+//        switch(category){
+//            case "instructor":
+//                suggestions.add("Instructor name");
+//                suggestions.add("Instructor office hours");
+//                suggestions.add("Instructor office location");
+//                suggestions.add("Course grading");
+//                suggestions.add("Course objective");
+//                break;
+//            default:
+//                break;
+//        }
+//        Log.i("RENCY","INTO ADATPER");
 
     }
 
@@ -66,16 +68,10 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
     }
     private void configureViewHolder(ViewHolder viewHolder, int position){
 
-        String sugg = (String) suggestions.get(position);
-
-        TextView tv1, tv2;
-
-        tv1 = viewHolder.suggestionText;
-        tv1.setText(sugg);
-
-
-
-
+        Suggestion suggestion = suggestions.get(position);
+        TextView suggestionTextView;
+        suggestionTextView = viewHolder.suggestionText;
+        suggestionTextView.setText(suggestion.getName());
     }
 
 
@@ -95,7 +91,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 
             Log.i("RENCY","creating view holder");
             suggestionText = (TextView)suggestionsView.findViewById(R.id.suggestion_tv);
-//            suggestionButton = (ImageButton)suggestionsView.findViewById(R.id.suggestion_img_btn);
+            //suggestionButton = (ImageButton)suggestionsView.findViewById(R.id.suggestion_img_btn);
         }
 
     }

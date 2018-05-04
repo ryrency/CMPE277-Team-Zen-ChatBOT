@@ -12,32 +12,39 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import edu.sjsu.zen.models.Messages;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
+
+import edu.sjsu.zen.models.MessageQuery;
 import edu.sjsu.zen.R;
 import edu.sjsu.zen.adapter.MessageAdapter;
+import edu.sjsu.zen.models.MessageResponse;
+import edu.sjsu.zen.networking.VolleySingleton;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
 
-    final ArrayList<Object> items = new ArrayList<>();
-
-    MessageAdapter adapter = new MessageAdapter(items,this);
-    ConstraintLayout constraintLayout;
+    private static final String TAG = ChatRoom.class.getSimpleName();
+    private final ArrayList<Object> messagesList = new ArrayList<>();
+    private MessageAdapter adapter;
+    //ConstraintLayout constraintLayout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_chat_room);
 
         RecyclerView recycler = (RecyclerView)findViewById(R.id.reyclerview_message_list);
+        adapter = new MessageAdapter(messagesList,this);
         LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(ChatRoom.this, LinearLayoutManager.VERTICAL,
                 false);
         recycler.setLayoutManager(verticalLayoutManager);
-        items.add(new User2("Select the course of interest"));
+        //messagesList.add(new User2("Select the course of interest"));
 
         recycler.setAdapter(adapter);
 
@@ -53,48 +60,81 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     }
 
 
-    public void getUserData(){
-        EditText text = (EditText) findViewById(R.id.edittext_chatbox);
-        String input_from_user = "";
-        input_from_user = text.getText().toString().trim();
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
-        Date date = new Date();
-        Messages newMessage =  new Messages();
-        if (input_from_user != " "){
-            items.add(new ChatRoom.User1(input_from_user));
+    public void messageFromUser(){
+        EditText userMessageView = (EditText) findViewById(R.id.edittext_chatbox);
+        String textFromUser = userMessageView.getText().toString().trim();
+        //DateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
+        //Date date = new Date();
+        //Messages newMessage =  new Messages();
+        if (!textFromUser.equals("")){
+            MessageQuery query = new MessageQuery(textFromUser);
+            messagesList.add(query);
             adapter.notifyDataSetChanged();
-            text.setText("");
+            userMessageView.setText("");
+            sendRequestAndprintResponse(query);
+
         }
     }
 
 
     @Override
     public void onClick(View v) {
-        getUserData();
+        messageFromUser();
     }
 
-    /*User*/
-    public static class User1 {
-        String  message;
-        public User1(String msg) {
-            message = msg;
-        }
-        public String getMessage(){
-            return this.message;
-        }
-
-    }
+//    /*User*/
+//    public static class User1 {
+//        String  message;
+//        public User1(String msg) {
+//            message = msg;
+//        }
+//        public String getMessage(){
+//            return this.message;
+//        }
+//
+  //  }
 
     /*ChatBOT*/
-    public static class User2 {
-        String  message;
-        public User2(String msg) {
-            message = msg;
-        }
-        public String getMessage(){
-            return this.message;
-        }
+//    public static class User2 {
+//        String  message;
+//        public User2(String msg) {
+//            message = msg;
+//        }
+//        public String getMessage(){
+//            return this.message;
+//        }
+//
+//
+//    }
 
+    public void sendRequestAndprintResponse(MessageQuery query) {
+        Log.d(TAG,"inside sendRequestAndprintResponse()");
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://10.0.2.2:5000/classify?text="+ query.getQuery(),
+                null,
+                new Response.Listener<JSONObject>() {
+                    public void onResponse(JSONObject response){
+                        Log.d(TAG,"response is:" +response.toString());
+                        MessageResponse messageResponse = MessageResponse.fromJSONObjectResponse(response);
+                        messagesList.add(messageResponse);
+                        adapter.notifyDataSetChanged();
 
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, "error making server request", error);
+                    }
+                }
+        );
+
+        VolleySingleton
+                .getInstance(getApplicationContext())
+                .getRequestQueue(this.getApplicationContext())
+                .add(request);
     }
+
+
 }

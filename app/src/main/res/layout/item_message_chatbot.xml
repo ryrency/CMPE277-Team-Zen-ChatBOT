@@ -31,7 +31,6 @@
         android:layout_marginEnd="32dp"
         android:layout_marginTop="2dp"
         android:background="@drawable/back"
-        android:fontFamily="Roboto"
         android:gravity="left"
         android:maxWidth="500dp"
         android:paddingLeft="8dp"

@@ -36,11 +36,11 @@ public enum Suggestion {
         this.iconResId = iconResId;
     }
 
-    private int getIconResId() {
+    public int getIconResId() {
         return iconResId;
     }
 
-    private String getName() {
+    public String getName() {
         return name;
     }
 }
