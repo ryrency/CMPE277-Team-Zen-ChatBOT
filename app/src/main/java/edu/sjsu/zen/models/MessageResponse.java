@@ -21,15 +21,9 @@ public class MessageResponse {
     @Nullable
     public String getString(String key) {
         JSONObject data = getData();
-        Log.d("DATA ***************** ",data.toString());
 
         try{
-
-            if(data.getString(key)!=null){
-                Log.d("TAG-RENCY-RESPONSE2 ",data.getString(key));
-                return data.getString(key);
-            }else return "SAJU";
-
+            return data.getString(key);
         }
         catch (JSONException e) {
             e.printStackTrace();
