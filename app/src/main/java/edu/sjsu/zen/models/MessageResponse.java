@@ -22,11 +22,7 @@ public class MessageResponse {
     public String getString(String key) {
         JSONObject data = getData();
         try{
-
-            if(data.getString(key)!=null){
                 return data.getString(key);
-            }else return "";
-
         }
         catch (JSONException e) {
             e.printStackTrace();
