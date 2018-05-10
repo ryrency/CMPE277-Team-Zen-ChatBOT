@@ -162,20 +162,20 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    public String getKey(String category){
-        if (category == "INSTRUCTOR_OFFICE_LOCATION")
+    private String getKey(String category){
+        if (category.equals("INSTRUCTOR_OFFICE_LOCATION"))
             return "office_location";
-        if (category == "INSTRUCTOR_EMAIL")
+        if (category.equals("INSTRUCTOR_EMAIL"))
             return "instructor_email";
-        if (category == "INSTRUCTOR_NAME")
+        if (category.equals("INSTRUCTOR_NAME"))
             return "instructor_name";
-        if (category == "INSTRUCTOR_CONTACT")
+        if (category.equals("INSTRUCTOR_CONTACT"))
             return "office_location";
-        if (category == "INSTRUCTOR_PHONE_NO")
+        if (category.equals("INSTRUCTOR_PHONE_NO"))
             return "instructor_phoneNo";
-        if (category == "INSTRUCTOR_OFFICE_HOURS")
+        if (category.equals("INSTRUCTOR_OFFICE_HOURS"))
             return "office_hours_start_time";
-        if (category == "COURSE_NAME")
+        if (category.equals("COURSE_NAME"))
             return "course_name";
         return "";
 
