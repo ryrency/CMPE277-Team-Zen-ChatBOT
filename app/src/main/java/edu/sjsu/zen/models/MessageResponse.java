@@ -21,9 +21,12 @@ public class MessageResponse {
     @Nullable
     public String getString(String key) {
         JSONObject data = getData();
-
         try{
-            return data.getString(key);
+
+            if(data.getString(key)!=null){
+                return data.getString(key);
+            }else return "";
+
         }
         catch (JSONException e) {
             e.printStackTrace();

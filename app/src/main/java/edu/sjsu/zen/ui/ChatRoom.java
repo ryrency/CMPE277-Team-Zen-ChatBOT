@@ -74,9 +74,6 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     }
 
     public void messageFromUser(String queryFromUser){
-        //DateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
-        //Date date = new Date();
-        //Messages newMessage =  new Messages();
         if (!queryFromUser.equals("")){
             MessageQuery query = new MessageQuery(queryFromUser);
             messagesList.add(query);
