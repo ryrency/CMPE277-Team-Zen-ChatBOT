@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.sjsu.zen.models.Category;
 import edu.sjsu.zen.models.MessageQuery;
@@ -31,7 +32,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     //private final int USER1 = 0, USER2 = 1;
     private final Context context;
     private final LayoutInflater layoutInflater;
-
     public MessageAdapter(ArrayList<Object> messagesList,Context context){
         this.messagesList = messagesList;
         this.context = context;
@@ -147,12 +147,38 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         chatbotTextView = viewHolder2.messageText;
         chatbotImageView = viewHolder2.chatbotImage;
         suggestionRecyclerView = viewHolder2.suggestionRecyclerView;
-        chatbotTextView.setText(responseFromChatBot.getString("office_location"));
+        Toast.makeText(context, "Category : "+responseFromChatBot.getCategory().toString(), Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(context, "category: "+responseFromChatBot.getCategory().toString(), Toast.LENGTH_SHORT).show();
+        Log.d("TAG-RENCY",responseFromChatBot.getCategory().toString());
+        String key = "";
+
+        chatbotTextView.setText(responseFromChatBot.getString(getKey(responseFromChatBot.getCategory().toString())));
         suggestionsAdapter = new SuggestionsAdapter(responseFromChatBot.getCategory().getSuggestions(), context);
         suggestionRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         suggestionRecyclerView.setAdapter(suggestionsAdapter);
         BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration(40);
         suggestionRecyclerView.addItemDecoration(bottomOffsetDecoration);
+
+    }
+
+    public String getKey(String category){
+        if (category == "INSTRUCTOR_OFFICE_LOCATION")
+            return "office_location";
+        if (category == "INSTRUCTOR_EMAIL")
+            return "instructor_email";
+        if (category == "INSTRUCTOR_NAME")
+            return "instructor_name";
+        if (category == "INSTRUCTOR_CONTACT")
+            return "office_location";
+        if (category == "INSTRUCTOR_PHONE_NO")
+            return "instructor_phoneNo";
+        if (category == "INSTRUCTOR_OFFICE_HOURS")
+            return "office_hours_start_time";
+        if (category == "COURSE_NAME")
+            return "course_name";
+        return "";
+
     }
 
     public static class BottomOffsetDecoration extends RecyclerView.ItemDecoration {

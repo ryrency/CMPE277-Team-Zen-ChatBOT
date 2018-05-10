@@ -14,7 +14,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reyclerview_message_list"
         android:layout_width="374dp"
-        android:layout_height="511dp"
+        android:layout_height="384dp"
         android:layout_marginBottom="196dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/layout_chatbox"

@@ -1,6 +1,7 @@
 package edu.sjsu.zen.models;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,10 +21,18 @@ public class MessageResponse {
     @Nullable
     public String getString(String key) {
         JSONObject data = getData();
+        Log.d("DATA ***************** ",data.toString());
+
         try{
-            return data.getString(key);
+
+            if(data.getString(key)!=null){
+                Log.d("TAG-RENCY-RESPONSE2 ",data.getString(key));
+                return data.getString(key);
+            }else return "SAJU";
+
         }
         catch (JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }

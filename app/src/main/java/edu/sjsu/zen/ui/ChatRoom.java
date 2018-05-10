@@ -63,14 +63,24 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     public void messageFromUser(){
         EditText userMessageView = (EditText) findViewById(R.id.edittext_chatbox);
         String textFromUser = userMessageView.getText().toString().trim();
-        //DateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
-        //Date date = new Date();
-        //Messages newMessage =  new Messages();
         if (!textFromUser.equals("")){
             MessageQuery query = new MessageQuery(textFromUser);
             messagesList.add(query);
             adapter.notifyDataSetChanged();
             userMessageView.setText("");
+            sendRequestAndprintResponse(query);
+
+        }
+    }
+
+    public void messageFromUser(String queryFromUser){
+        //DateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
+        //Date date = new Date();
+        //Messages newMessage =  new Messages();
+        if (!queryFromUser.equals("")){
+            MessageQuery query = new MessageQuery(queryFromUser);
+            messagesList.add(query);
+            adapter.notifyDataSetChanged();
             sendRequestAndprintResponse(query);
 
         }
@@ -82,36 +92,12 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         messageFromUser();
     }
 
-//    /*User*/
-//    public static class User1 {
-//        String  message;
-//        public User1(String msg) {
-//            message = msg;
-//        }
-//        public String getMessage(){
-//            return this.message;
-//        }
-//
-  //  }
-
-    /*ChatBOT*/
-//    public static class User2 {
-//        String  message;
-//        public User2(String msg) {
-//            message = msg;
-//        }
-//        public String getMessage(){
-//            return this.message;
-//        }
-//
-//
-//    }
 
     public void sendRequestAndprintResponse(MessageQuery query) {
         Log.d(TAG,"inside sendRequestAndprintResponse()");
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://10.0.2.2:5000/classify?text="+ query.getQuery(),
+                "http://10.0.2.2:5000/classify?text="+ query.getQuery().replace("_"," "),
                 null,
                 new Response.Listener<JSONObject>() {
                     public void onResponse(JSONObject response){
