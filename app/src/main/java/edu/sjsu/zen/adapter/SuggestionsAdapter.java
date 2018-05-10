@@ -20,10 +20,6 @@ import edu.sjsu.zen.models.Suggestion;
 import edu.sjsu.zen.ui.ChatRoom;
 
 
-/**
- * Created by sajujoseph on 4/30/18.
- */
-
 public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.ViewHolder> {
 
     private List<Suggestion> suggestions;
@@ -31,30 +27,17 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
     private List<String> mSuggestions;
     private RecyclerView mRecyclerView;
 
-    //final ArrayList<Object> suggestions = new ArrayList<>();
 
 
-    public SuggestionsAdapter(List<Suggestion> suggestions, Context context){
+    SuggestionsAdapter(List<Suggestion> suggestions, Context context){
         this.suggestions = suggestions;
         this.context = context;
-//        switch(category){
-//            case "instructor":
-//                suggestions.add("Instructor name");
-//                suggestions.add("Instructor office hours");
-//                suggestions.add("Instructor office location");
-//                suggestions.add("Course grading");
-//                suggestions.add("Course objective");
-//                break;
-//            default:
-//                break;
-//        }
-//        Log.i("RENCY","INTO ADATPER");
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder = null;
+        RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         View suggestionsView = inflater.inflate(R.layout.suggestion_content_layout, null,false);
@@ -90,7 +73,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView suggestionText;
+        TextView suggestionText;
         public ImageButton suggestionButton;
         String category_selected;
 
@@ -98,8 +81,6 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
             super(suggestionsView);
 
             mRecyclerView = suggestionsView.findViewById(R.id.reyclerview_suggestion_list);
-
-            Log.i("RENCY","creating view holder");
             suggestionText = (TextView)suggestionsView.findViewById(R.id.suggestion_tv);
 
             //suggestionButton = (ImageButton)suggestionsView.findViewById(R.id.suggestion_img_btn);
@@ -116,9 +97,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 
         @Override
         public void onClick(View view) {
-            Log.d("TAG-RENCY", "onClick "+ category_selected);
             Toast.makeText(context, "onClick "+ category_selected, Toast.LENGTH_SHORT).show();
-            category_selected.replace("_"," ");
             MessageQuery mq = new MessageQuery(category_selected);
             if (context instanceof ChatRoom)
                 ((ChatRoom)context).messageFromUser(category_selected.replace("_"," "));
