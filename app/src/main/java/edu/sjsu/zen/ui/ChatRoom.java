@@ -92,6 +92,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
 
     public void sendRequestAndprintResponse(MessageQuery query) {
         Log.d(TAG,"inside sendRequestAndprintResponse()");
+        try{
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 "http://10.0.2.2:5000/classify?text="+ query.getQuery().replace("_"," "),
@@ -117,6 +118,10 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
                 .getInstance(getApplicationContext())
                 .getRequestQueue(this.getApplicationContext())
                 .add(request);
+    }
+    catch (Exception e){
+            e.printStackTrace();
+    }
     }
 
 

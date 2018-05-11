@@ -53,10 +53,15 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
     }
 
     private void configureViewHolder(ViewHolder viewHolder, int position){
-        Suggestion suggestion = suggestions.get(position);
-        TextView suggestionTextView;
-        suggestionTextView = viewHolder.suggestionText;
-        suggestionTextView.setText(suggestion.getName());
+        try {
+            Suggestion suggestion = suggestions.get(position);
+            TextView suggestionTextView;
+            suggestionTextView = viewHolder.suggestionText;
+            suggestionTextView.setText(suggestion.getName());
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -86,8 +91,9 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
             Toast.makeText(context, "onClick "+ categorySelected, Toast.LENGTH_SHORT).show();
             //categorySelected.replace("_"," ");
             MessageQuery mq = new MessageQuery(categorySelected);
-            if (context instanceof ChatRoom)
-                ((ChatRoom)context).messageFromUser(categorySelected.replace("_"," "));
+            if (context instanceof ChatRoom) {
+                ((ChatRoom) context).messageFromUser(categorySelected);
+            }
 
         }
         }

@@ -57,7 +57,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     category == Category.INSTRUCTOR_NAME ||
                     category == Category.INSTRUCTOR_EMAIL ||
                     category == Category.INSTRUCTOR_OFFICE_HOURS ||
-                    category == Category.INSTRUCTOR_OFFICE_LOCATION)
+                    category == Category.INSTRUCTOR_OFFICE_LOCATION ||
+                    category == Category.UNKNOWN)
                 {
                 return 1;
             }
@@ -68,32 +69,24 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType){
+        switch (viewType) {
+        case 0:
+            // Inflate the custom layout
+            View userMessageView = layoutInflater.inflate(R.layout.item_message_user, viewGroup, false);
+            //ViewHolder viewHolder1 = new ViewHolder1(userMessageView);
+            return new ViewHolder1(userMessageView);
 
-        Log.i(TAG,"Inflating user view");
-        //ViewHolder viewHolder;
-        //LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+        case 1:
+            View chatbotMessageView = layoutInflater.inflate(R.layout.item_message_chatbot, viewGroup, false);
+            //ViewHolder viewHolder2 = new ViewHolder2(chatbotMessageView);
+            return new ViewHolder2(chatbotMessageView);
 
-        switch(viewType) {
-            case 0:
-                // Inflate the custom layout
-                View userMessageView = layoutInflater.inflate(R.layout.item_message_user, viewGroup, false);
-                //ViewHolder viewHolder1 = new ViewHolder1(userMessageView);
-                return new ViewHolder1(userMessageView);
-
-            case 1:
-                View chatbotMessageView = layoutInflater.inflate(R.layout.item_message_chatbot,viewGroup, false);
-                //ViewHolder viewHolder2 = new ViewHolder2(chatbotMessageView);
-                return new ViewHolder2(chatbotMessageView);
-
-        }
-
-        return null;
-
+    }
+    return null;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position){
-        Log.i(TAG, "VIEWTYPE "+String.valueOf(viewHolder.getItemViewType()));
         switch(viewHolder.getItemViewType()){
             case 0:
                 ViewHolder1 vh1 = (ViewHolder1)viewHolder;
@@ -111,22 +104,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 configureViewHolder3(vh3,position);
                 break;
         }
-        Log.i(TAG,"Binding");
-//
-//        DateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
-//        Date date = new Date();
-//
-//        Message message = messagesList.get(position);
-//
-//        tx = viewHolder.messageText;
-//        tx.setText(message.getMessage());
-//        tx1 = viewHolder.messageTime;
-//        tx1.setText((dateFormat.format(date)));
     }
-
-//    private void configureDefaultViewHolder(RecyclerViewSimpleTextViewHolder vh, int position ){
-//        vh.getLabel().setText((CharSequence) items.get(position));
-//    }
 
 
     private void configureViewHolder1(ViewHolder1 viewHolder1, int position){
@@ -141,24 +119,33 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ImageView chatbotImageView;
         RecyclerView suggestionRecyclerView;
         SuggestionsAdapter suggestionsAdapter;
-        LayoutInflater inflater = LayoutInflater.from(this.context);
-        Log.i(TAG, String.valueOf(position));
-        MessageResponse responseFromChatBot = (MessageResponse) messagesList.get(position);
-        chatbotTextView = viewHolder2.messageText;
-        //chatbotImageView = viewHolder2.chatbotImage;
-        suggestionRecyclerView = viewHolder2.suggestionRecyclerView;
-        Toast.makeText(context, "Category : "+responseFromChatBot.getCategory().toString(), Toast.LENGTH_SHORT).show();
-
-        Toast.makeText(context, "category: "+responseFromChatBot.getCategory().toString(), Toast.LENGTH_SHORT).show();
         String key = "";
 
-        chatbotTextView.setText(responseFromChatBot.getString(getKey(responseFromChatBot.getCategory().toString())));
-        suggestionsAdapter = new SuggestionsAdapter(responseFromChatBot.getCategory().getSuggestions(), context);
-        suggestionRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        suggestionRecyclerView.setAdapter(suggestionsAdapter);
-        BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration(40);
-        suggestionRecyclerView.addItemDecoration(bottomOffsetDecoration);
+        try {
+            LayoutInflater inflater = LayoutInflater.from(this.context);
+            Log.i(TAG, String.valueOf(position));
+            MessageResponse responseFromChatBot = (MessageResponse) messagesList.get(position);
+            chatbotTextView = viewHolder2.messageText;
 
+            suggestionRecyclerView = viewHolder2.suggestionRecyclerView;
+            key = getKey(responseFromChatBot.getCategory().toString());
+
+
+            if (key.equals("UNKNOWN")){
+                chatbotTextView.setText("Sorry did not understand the question");
+            }
+            else {
+                chatbotTextView.setText(responseFromChatBot.getString(key));
+                suggestionsAdapter = new SuggestionsAdapter(responseFromChatBot.getCategory().getSuggestions(), context);
+                suggestionRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                suggestionRecyclerView.setAdapter(suggestionsAdapter);
+                BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration(40);
+                suggestionRecyclerView.addItemDecoration(bottomOffsetDecoration);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private String getKey(String category){
@@ -171,11 +158,13 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (category.equals("INSTRUCTOR_CONTACT"))
             return "office_location";
         if (category.equals("INSTRUCTOR_PHONE_NO"))
-            return "instructor_phoneNo";
+            return "phn_no";
         if (category.equals("INSTRUCTOR_OFFICE_HOURS"))
             return "office_hours_start_time";
         if (category.equals("COURSE_NAME"))
             return "course_name";
+        if (category.equals("UNKNOWN"))
+            return "UNKNOWN";
         return "";
 
     }
