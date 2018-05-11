@@ -22,8 +22,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 
     private List<Suggestion> suggestions;
     private Context context;
-    private List<String> mSuggestions;
-    private RecyclerView mRecyclerView;
+    //private RecyclerView mRecyclerView;
 
     //final ArrayList<Object> suggestions = new ArrayList<>();
 
@@ -73,6 +72,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
         private TextView suggestionText;
         private ImageButton suggestionButton;
         private String categorySelected;
+        private RecyclerView mRecyclerView;
 
         public ViewHolder(View suggestionsView){
             super(suggestionsView);
@@ -85,11 +85,9 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
         public void setItem(String item) {
             categorySelected = item;
         }
-
         @Override
         public void onClick(View view) {
             Toast.makeText(context, "onClick "+ categorySelected, Toast.LENGTH_SHORT).show();
-            //categorySelected.replace("_"," ");
             MessageQuery mq = new MessageQuery(categorySelected);
             if (context instanceof ChatRoom) {
                 ((ChatRoom) context).messageFromUser(categorySelected);
