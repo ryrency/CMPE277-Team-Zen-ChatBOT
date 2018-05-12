@@ -58,6 +58,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     category == Category.INSTRUCTOR_EMAIL ||
                     category == Category.INSTRUCTOR_OFFICE_HOURS ||
                     category == Category.INSTRUCTOR_OFFICE_LOCATION ||
+                    category == Category.COURSE_NAME ||
                     category == Category.UNKNOWN)
                 {
                 return 1;
@@ -116,57 +117,30 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private void configureViewHolder2(ViewHolder2 viewHolder2, int position){
         TextView chatbotTextView;
-        ImageView chatbotImageView;
         RecyclerView suggestionRecyclerView;
         SuggestionsAdapter suggestionsAdapter;
-        String key = "";
 
-        try {
-            LayoutInflater inflater = LayoutInflater.from(this.context);
-            Log.i(TAG, String.valueOf(position));
-            MessageResponse responseFromChatBot = (MessageResponse) messagesList.get(position);
-            chatbotTextView = viewHolder2.messageText;
+        Log.i(TAG, String.valueOf(position));
+        MessageResponse responseFromChatBot = (MessageResponse) messagesList.get(position);
+        chatbotTextView = viewHolder2.messageText;
 
-            suggestionRecyclerView = viewHolder2.suggestionRecyclerView;
-            key = getKey(responseFromChatBot.getCategory().toString());
+        suggestionRecyclerView = viewHolder2.suggestionRecyclerView;
 
 
-            if (key.equals("UNKNOWN")){
-                chatbotTextView.setText("Sorry did not understand the question");
-            }
-            else {
-                chatbotTextView.setText(responseFromChatBot.getString(key));
-                suggestionsAdapter = new SuggestionsAdapter(responseFromChatBot.getCategory().getSuggestions(), context);
-                suggestionRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                suggestionRecyclerView.setAdapter(suggestionsAdapter);
-                BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration(40);
-                suggestionRecyclerView.addItemDecoration(bottomOffsetDecoration);
-            }
+        if (responseFromChatBot.getCategory() == Category.UNKNOWN){
+            chatbotTextView.setText("Sorry did not understand the question");
+            suggestionRecyclerView.setVisibility(GONE);
         }
-        catch (Exception e){
-            e.printStackTrace();
+        else {
+            suggestionRecyclerView.setVisibility(VISIBLE);
+            //chatbotTextView.setText(responseFromChatBot.getString(key));
+            chatbotTextView.setText(responseFromChatBot.getDisplayText());
+            suggestionsAdapter = new SuggestionsAdapter(responseFromChatBot.getCategory().getSuggestions(), context);
+            suggestionRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+            suggestionRecyclerView.setAdapter(suggestionsAdapter);
+            BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration(40);
+            suggestionRecyclerView.addItemDecoration(bottomOffsetDecoration);
         }
-    }
-
-    private String getKey(String category){
-        if (category.equals("INSTRUCTOR_OFFICE_LOCATION"))
-            return "office_location";
-        if (category.equals("INSTRUCTOR_EMAIL"))
-            return "instructor_email";
-        if (category.equals("INSTRUCTOR_NAME"))
-            return "instructor_name";
-        if (category.equals("INSTRUCTOR_CONTACT"))
-            return "office_location";
-        if (category.equals("INSTRUCTOR_PHONE_NO"))
-            return "phn_no";
-        if (category.equals("INSTRUCTOR_OFFICE_HOURS"))
-            return "office_hours_start_time";
-        if (category.equals("COURSE_NAME"))
-            return "course_name";
-        if (category.equals("UNKNOWN"))
-            return "UNKNOWN";
-        return "";
-
     }
 
     public static class BottomOffsetDecoration extends RecyclerView.ItemDecoration {

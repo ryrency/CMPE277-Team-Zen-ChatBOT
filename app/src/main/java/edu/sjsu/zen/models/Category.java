@@ -38,6 +38,8 @@ public enum Category {
         } if (categoryTypeInt == INSTRUCTOR_OFFICE_HOURS.categoryType) {
             //INSTRUCTOR_OFFICE_HOURS.getSuggestions();
             return INSTRUCTOR_OFFICE_HOURS;
+        } if (categoryTypeInt == COURSE_NAME.getCategoryType()) {
+            return COURSE_NAME;
         }
 
         return UNKNOWN;
