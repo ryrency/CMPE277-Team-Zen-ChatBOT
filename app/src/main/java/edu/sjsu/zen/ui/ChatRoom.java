@@ -64,6 +64,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         EditText userMessageView = (EditText) findViewById(R.id.edittext_chatbox);
         String textFromUser = userMessageView.getText().toString().trim();
         if (!textFromUser.equals("")){
+            Log.d(TAG+"Text from User ",textFromUser);
             MessageQuery query = new MessageQuery(textFromUser);
             messagesList.add(query);
             adapter.notifyDataSetChanged();
@@ -91,9 +92,9 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     public void sendRequestAndprintResponse(MessageQuery query) {
         Log.d(TAG,"inside sendRequestAndprintResponse()");
         try{
-        JsonObjectRequest request = new JsonObjectRequest(
+            JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://10.0.2.2:5000/classify?text="+ query.getQuery().replace("_"," "),
+                "http://10.0.2.2:5000/classify?text="+ query.getQuery(),
                 null,
                 new Response.Listener<JSONObject>() {
                     public void onResponse(JSONObject response){
