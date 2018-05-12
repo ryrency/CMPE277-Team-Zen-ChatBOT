@@ -3,6 +3,7 @@ package edu.sjsu.zen.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.sjsu.zen.R;
@@ -20,35 +22,31 @@ import edu.sjsu.zen.ui.ChatRoom;
 
 public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.ViewHolder> {
 
-    private List<Suggestion> suggestions;
-    private Context context;
-    //private RecyclerView mRecyclerView;
+    private final List<Suggestion> suggestions = new ArrayList<>();
+    private final Context context;
+    private final LayoutInflater layoutInflater;
 
-    //final ArrayList<Object> suggestions = new ArrayList<>();
-
-
-    public SuggestionsAdapter(List<Suggestion> suggestions, Context context){
-        this.suggestions = suggestions;
+    SuggestionsAdapter(Context context){
         this.context = context;
+        this.layoutInflater = LayoutInflater.from(context);
+    }
+
+    public void setSuggestions(List<Suggestion> suggestions) {
+        this.suggestions.clear();
+        this.suggestions.addAll(suggestions);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder = null;
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View suggestionsView = inflater.inflate(R.layout.suggestion_content_layout, null,false);
-        viewHolder = new ViewHolder(suggestionsView);
-        return (ViewHolder) viewHolder;
+        View suggestionsView = layoutInflater.inflate(R.layout.suggestion_content_layout, null,false);
+        return new ViewHolder(suggestionsView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        ViewHolder vh = (ViewHolder)viewHolder;
-        configureViewHolder(vh,position);
-        Toast.makeText(context, String.valueOf(suggestions.get(position)), Toast.LENGTH_SHORT).show();
-        vh.setItem(suggestions.get(position).getName());
-        //vh.setItem(String.valueOf(suggestions.get(position)));
+        configureViewHolder(viewHolder,position);
+        viewHolder.setItem(suggestions.get(position).getName());
     }
 
     private void configureViewHolder(ViewHolder viewHolder, int position){
@@ -69,32 +67,27 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView suggestionText;
-        private ImageButton suggestionButton;
+        private final TextView suggestionText;
         private String categorySelected;
-        private RecyclerView mRecyclerView;
 
-        public ViewHolder(View suggestionsView){
+        ViewHolder(View suggestionsView){
             super(suggestionsView);
-            mRecyclerView = suggestionsView.findViewById(R.id.reyclerview_suggestion_list);
             suggestionText = (TextView)suggestionsView.findViewById(R.id.suggestion_tv);
-            suggestionsView.setTag(suggestionsView);
             suggestionText.setOnClickListener(this);
         }
 
-        public void setItem(String item) {
+        void setItem(String item) {
             categorySelected = item;
         }
+
         @Override
         public void onClick(View view) {
-            Toast.makeText(context, "onClick "+ categorySelected, Toast.LENGTH_SHORT).show();
-            MessageQuery mq = new MessageQuery(categorySelected);
+            //Toast.makeText(context, "onClick "+ categorySelected, Toast.LENGTH_SHORT).show();
             if (context instanceof ChatRoom) {
                 ((ChatRoom) context).messageFromUser(categorySelected);
             }
-
-        }
         }
     }
+}
 
 

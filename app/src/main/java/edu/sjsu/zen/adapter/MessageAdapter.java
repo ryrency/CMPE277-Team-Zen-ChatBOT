@@ -1,7 +1,6 @@
 package edu.sjsu.zen.adapter;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,16 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import edu.sjsu.zen.models.Category;
 import edu.sjsu.zen.models.MessageQuery;
 import edu.sjsu.zen.models.MessageResponse;
-import edu.sjsu.zen.ui.ChatRoom;
 import edu.sjsu.zen.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static android.support.v7.widget.RecyclerView.*;
 
@@ -91,81 +87,19 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch(viewHolder.getItemViewType()){
             case 0:
                 ViewHolder1 vh1 = (ViewHolder1)viewHolder;
-
-                configureViewHolder1(vh1, position);
+                MessageQuery queryFromUser = (MessageQuery) messagesList.get(position);
+                vh1.bindData(queryFromUser.getQuery());
                 break;
             case 1:
                 ViewHolder2 vh2 = (ViewHolder2)viewHolder;
-
-                configureViewHolder2(vh2,position);
+                Log.i(TAG, String.valueOf(position));
+                MessageResponse responseFromChatBot = (MessageResponse) messagesList.get(position);
+                vh2.bindData(responseFromChatBot);
                 break;
             default:
                 ViewHolder3 vh3 = (ViewHolder3)viewHolder;
-
-                configureViewHolder3(vh3,position);
                 break;
         }
-    }
-
-
-    private void configureViewHolder1(ViewHolder1 viewHolder1, int position){
-        MessageQuery queryFromUser = (MessageQuery) messagesList.get(position);
-        TextView queryFromUserTextView;
-        queryFromUserTextView = viewHolder1.messageText;
-        queryFromUserTextView.setText(queryFromUser.getQuery());
-    }
-
-    private void configureViewHolder2(ViewHolder2 viewHolder2, int position){
-        TextView chatbotTextView;
-        RecyclerView suggestionRecyclerView;
-        SuggestionsAdapter suggestionsAdapter;
-
-        Log.i(TAG, String.valueOf(position));
-        MessageResponse responseFromChatBot = (MessageResponse) messagesList.get(position);
-        chatbotTextView = viewHolder2.messageText;
-
-        suggestionRecyclerView = viewHolder2.suggestionRecyclerView;
-
-
-        if (responseFromChatBot.getCategory() == Category.UNKNOWN){
-            chatbotTextView.setText("Sorry did not understand the question");
-            suggestionRecyclerView.setVisibility(GONE);
-        }
-        else {
-            suggestionRecyclerView.setVisibility(VISIBLE);
-            //chatbotTextView.setText(responseFromChatBot.getString(key));
-            chatbotTextView.setText(responseFromChatBot.getDisplayText());
-            suggestionsAdapter = new SuggestionsAdapter(responseFromChatBot.getCategory().getSuggestions(), context);
-            suggestionRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            suggestionRecyclerView.setAdapter(suggestionsAdapter);
-            BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration(40);
-            suggestionRecyclerView.addItemDecoration(bottomOffsetDecoration);
-        }
-    }
-
-    public static class BottomOffsetDecoration extends RecyclerView.ItemDecoration {
-        private int mBottomOffset;
-
-        public BottomOffsetDecoration(int bottomOffset) {
-            mBottomOffset = bottomOffset;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            super.getItemOffsets(outRect, view, parent, state);
-            int dataSize = state.getItemCount();
-            int position = parent.getChildAdapterPosition(view);
-            if (dataSize > 0 && position == dataSize - 1) {
-                outRect.set(0, 0, mBottomOffset,0 );
-            } else {
-                outRect.set(0, 0, mBottomOffset, 0);
-            }
-
-        }
-    }
-
-    private void configureViewHolder3(ViewHolder3 viewHolder2, int position){
-
     }
 
     public class ViewHolder1 extends ViewHolder{
@@ -173,31 +107,47 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private ViewHolder1(View itemView){
             super(itemView);
-
             Log.i(TAG,"creating view holder");
             messageText = (TextView) itemView.findViewById(R.id.user_text_message_body);
         }
 
+        public void bindData(String userText) {
+            messageText.setText(userText);
+        }
     }
 
     public class ViewHolder2 extends ViewHolder{
         private ImageView chatbotImage;
         private TextView messageText;
-        private RecyclerView suggestionRecyclerView ;
+        private RecyclerView suggestionRecyclerView;
+        private SuggestionsAdapter suggestionsAdapter;
 
 
-        public ViewHolder2(View itemView){
+        ViewHolder2(View itemView){
             super(itemView);
             Log.i(TAG,"creating view holder");
             chatbotImage = (ImageView) itemView.findViewById(R.id.chatbot_imageView);
             messageText = (TextView) itemView.findViewById(R.id.chatbot_text_message_body);
             suggestionRecyclerView = (RecyclerView)itemView.findViewById(R.id.reyclerview_suggestion_list);
+            suggestionRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+            suggestionsAdapter = new SuggestionsAdapter(context);
+            suggestionRecyclerView.setAdapter(suggestionsAdapter);
         }
 
+        void bindData(MessageResponse messageResponse) {
+            if (messageResponse.getCategory() == Category.UNKNOWN) {
+                messageText.setText("Sorry I don't understand, but I am learning!");
+                suggestionRecyclerView.setVisibility(GONE);
+            } else {
+                suggestionRecyclerView.setVisibility(VISIBLE);
+                messageText.setText(messageResponse.getDisplayText());
+                suggestionsAdapter.setSuggestions(messageResponse.getCategory().getSuggestions());
+                suggestionsAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     public class ViewHolder3 extends ViewHolder{
-
         public ViewHolder3(View itemView){
             super(itemView);
         }

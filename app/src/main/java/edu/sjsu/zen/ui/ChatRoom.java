@@ -79,10 +79,8 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
             messagesList.add(query);
             adapter.notifyDataSetChanged();
             sendRequestAndprintResponse(query);
-
         }
     }
-
 
     @Override
     public void onClick(View v) {
