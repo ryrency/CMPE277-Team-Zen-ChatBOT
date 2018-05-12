@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.CollapsibleActionView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,19 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     category == Category.INSTRUCTOR_OFFICE_HOURS ||
                     category == Category.INSTRUCTOR_OFFICE_LOCATION ||
                     category == Category.COURSE_NAME ||
+                    category == Category.COURSE_PRE_REQUIREMENTS ||
+                    category == Category.CLASS_LOCATION ||
+                    category == Category.CLASS_TIMINGS ||
+                    category == Category.COURSE_WEBSITE ||
+                    category == Category.PROJECT_DUE_DATE ||
+                    category == Category.MID_TERM_DUE_DATE ||
+                    category == Category.FINAL_EXAM_DUE_DATE ||
+                    category == Category.FINAL_EXAM_WEIGHTAGE ||
+                    category == Category.PROJECT_WEIGHTAGE ||
+                    category == Category.MID_TERM_WEIGHTAGE ||
+                    category == Category.ASSIGNMENT_WEIGHTAGE ||
+                    category == Category.LAB_WEIGHTAGE ||
+                    category == Category.QUIZZ_WEIGHTAGE ||
                     category == Category.UNKNOWN)
                 {
                 return 1;
@@ -79,7 +93,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         case 1:
             View chatbotMessageView = layoutInflater.inflate(R.layout.item_message_chatbot, viewGroup, false);
-            //ViewHolder viewHolder2 = new ViewHolder2(chatbotMessageView);
             return new ViewHolder2(chatbotMessageView);
 
     }
