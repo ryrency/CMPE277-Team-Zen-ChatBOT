@@ -15,8 +15,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button letsChat = (Button)findViewById(R.id.main_lets_chat);
-        letsChat.setOnClickListener(this);
+        Button context27301 = (Button)findViewById(R.id.main_273_01_button);
+        Button context27202 = (Button)findViewById(R.id.main_272_02_button);
+
+        context27202.setOnClickListener(this);
+        context27301.setOnClickListener(this);
 
     }
 
@@ -48,9 +51,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+        switch (v.getId()) {
+            case R.id.main_272_02_button:
+                goToChatRoom("272-02");
+                break;
+            case R.id.main_273_01_button:
+                goToChatRoom("273-01");
+                break;
+        }
+    }
+
+    private void goToChatRoom(String courseContext){
         Intent chatRoom = new Intent(this,ChatRoom.class);
         chatRoom.setClass(this,ChatRoom.class);
+        chatRoom.putExtra("COURSE_CONTEXT",courseContext);
         startActivity(chatRoom);
-
     }
 }

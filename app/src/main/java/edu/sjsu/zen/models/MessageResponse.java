@@ -40,7 +40,7 @@ public class MessageResponse {
             case INSTRUCTOR_OFFICE_HOURS: return  getString("instructor_name")+"'s Office Hours are from - "+
                     getString("office_hours_start_time") + " - "
                     +getString("office_hours_end_time");
-            case COURSE_NAME: return getString("course_name") + " is about " + getString("description");
+            case COURSE_NAME: return getString("course_name") + " is " + getString("description");
             case COURSE_PRE_REQUIREMENTS: return getString("course_name")+" pre-requirements are "+getString("pre_requirement");
             case CLASS_TIMINGS: return "Classes are on "+getString("day")+" from "+getString("class_start_time")
                     + " to "+ getString("class_end_time");

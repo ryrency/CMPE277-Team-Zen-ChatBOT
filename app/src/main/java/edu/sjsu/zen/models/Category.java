@@ -23,7 +23,7 @@ public enum Category {
     INSTRUCTOR_OFFICE_HOURS(6, Arrays.asList(Suggestion.INSTRUCTOR_EMAIL,Suggestion.INSTRUCTOR_PHONE_NO,
             Suggestion.INSTRUCTOR_OFFICE_LOCATION)),
     COURSE_NAME(9,Arrays.asList(Suggestion.COURSE_PRE_REQUIREMENTS,
-            Suggestion.CLASS_TIMINGS,Suggestion.CLASS_LOCATION,
+            Suggestion.CLASS_TIMINGS,Suggestion.CLASS_LOCATION,Suggestion.INSTRUCTOR_NAME,
             Suggestion.COURSE_WEBSITE,Suggestion.INSTRUCTOR_OFFICE_HOURS)),
     COURSE_PRE_REQUIREMENTS(10,Arrays.asList(Suggestion.COURSE_NAME, Suggestion.INSTRUCTOR_NAME,
             Suggestion.COURSE_OBJECTIVE)),

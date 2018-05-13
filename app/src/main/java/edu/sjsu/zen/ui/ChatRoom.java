@@ -35,12 +35,21 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     private final ArrayList<Object> messagesList = new ArrayList<>();
     private MessageAdapter adapter;
     private String emailAddressInResponse ;
+    private static boolean RUN_ONCE = true;
+    private String courseContext;
     //ConstraintLayout constraintLayout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_chat_room);
 
+        if (RUN_ONCE){
+            RUN_ONCE = false;
+            Bundle extras = getIntent().getExtras();
+            courseContext = extras.getString("COURSE_CONTEXT");
+            MessageQuery query = new MessageQuery("course name "+courseContext);
+            sendRequestAndprintResponse(query);
+        }
         RecyclerView recycler = (RecyclerView)findViewById(R.id.reyclerview_message_list);
         adapter = new MessageAdapter(messagesList,this);
         LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(ChatRoom.this, LinearLayoutManager.VERTICAL,
