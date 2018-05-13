@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingEnd="8dp"
-    android:clickable="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:layout_marginTop="6dp"
+    android:background="@drawable/button_back">
 
-
-   <!-- <ImageButton
-        android:id="@+id/suggestion_img_btn"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:paddingTop="8dp"
-        android:layout_weight="1"
-        android:adjustViewBounds="true"
-        android:src="@drawable/course_website"
-        android:scaleType="fitCenter"/>
-  -->
+    <ImageView
+        android:id="@+id/suggestion_icons"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintRight_toLeftOf="@id/suggestion_tv"
+        android:src="@drawable/email_icon"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/suggestion_tv"
         android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:background="@drawable/button_back"
-        android:text="Instructor Details"
+        android:layout_height="wrap_content"
+        android:text="Email Instructor"
         android:textColor="@color/darkGrey"
         android:textSize="14dp"
-        android:paddingRight="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"/>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
 
 

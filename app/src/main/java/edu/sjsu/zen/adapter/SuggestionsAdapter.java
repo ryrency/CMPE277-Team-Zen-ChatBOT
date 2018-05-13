@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,11 +54,18 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
     private void configureViewHolder(ViewHolder viewHolder, int position){
         try {
             Suggestion suggestion = suggestions.get(position);
+            ImageView suggestionIcon;
             TextView suggestionTextView;
             suggestionTextView = viewHolder.suggestionText;
+            suggestionIcon = viewHolder.suggestionIcon;
             suggestionTextView.setText(suggestion.getName());
-        }
-        catch(Exception e){
+            if (suggestion.getIconResId() == 0) {
+                suggestionIcon.setVisibility(View.GONE);
+            } else {
+                suggestionIcon.setImageResource(suggestion.getIconResId());
+                suggestionIcon.setVisibility(View.VISIBLE);
+            }
+        } catch(Exception e){
             e.printStackTrace();
         }
     }
@@ -69,10 +77,12 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private final TextView suggestionText;
+        private final ImageView suggestionIcon;
         private String categorySelected;
 
         ViewHolder(View suggestionsView){
             super(suggestionsView);
+            suggestionIcon = (ImageView) suggestionsView.findViewById(R.id.suggestion_icons);
             suggestionText = (TextView)suggestionsView.findViewById(R.id.suggestion_tv);
             suggestionText.setOnClickListener(this);
         }
