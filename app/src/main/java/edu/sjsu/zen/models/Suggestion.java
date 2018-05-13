@@ -5,7 +5,8 @@ import edu.sjsu.zen.R;
  * Suggestions to show in response to a query.
  */
 public enum Suggestion {
-    INSTRUCTOR_EMAIL("instructor email address", R.drawable.office_hours),
+    INSTRUCTOR_EMAIL("instructor email address", R.drawable.email_icon),
+    EMAIL_INSTRUCTOR("Email Instructor", R.drawable.email_icon),
     INSTRUCTOR_NAME("who is instructor?", R.drawable.office_hours),
     INSTRUCTOR_CONTACT("instructor contact", R.drawable.office_hours),
     INSTRUCTOR_PHONE_NO("instructor phone number", R.drawable.office_hours ),

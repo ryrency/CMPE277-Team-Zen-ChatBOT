@@ -19,7 +19,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reyclerview_suggestion_list"
         android:layout_width="match_parent"
-        android:layout_height="38dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,7 +33,6 @@
         android:id="@+id/chatbot_text_message_body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constrainedWidth="true"
         app:layout_constraintWidth_default="wrap"
         app:layout_constraintHorizontal_bias="0"
         android:layout_marginStart="8dp"

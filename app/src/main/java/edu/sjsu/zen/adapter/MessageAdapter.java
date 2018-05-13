@@ -15,6 +15,7 @@ import edu.sjsu.zen.models.Category;
 import edu.sjsu.zen.models.MessageQuery;
 import edu.sjsu.zen.models.MessageResponse;
 import edu.sjsu.zen.R;
+import edu.sjsu.zen.ui.ChatRoom;
 
 import java.util.ArrayList;
 
@@ -67,7 +68,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     category == Category.PROJECT_WEIGHTAGE ||
                     category == Category.MID_TERM_WEIGHTAGE ||
                     category == Category.ASSIGNMENT_WEIGHTAGE ||
-                    category == Category.LAB_WEIGHTAGE ||
+                    category == Category.COURSE_GRADING ||
                     category == Category.QUIZZ_WEIGHTAGE ||
                     category == Category.UNKNOWN)
                 {
@@ -154,6 +155,14 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 suggestionRecyclerView.setVisibility(VISIBLE);
                 messageText.setText(messageResponse.getDisplayText());
+                if(messageResponse.getDisplayText().equals
+                        (messageResponse.getString("instructor_email"))) {
+                    String response = messageResponse.getString("instructor_email");
+                    if (context instanceof ChatRoom) {
+                        ((ChatRoom) context).EmailAddressFromChatBot(response);
+
+                    }
+                }
                 suggestionsAdapter.setSuggestions(messageResponse.getCategory().getSuggestions());
                 suggestionsAdapter.notifyDataSetChanged();
             }

@@ -1,6 +1,7 @@
 package edu.sjsu.zen.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -33,6 +34,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = ChatRoom.class.getSimpleName();
     private final ArrayList<Object> messagesList = new ArrayList<>();
     private MessageAdapter adapter;
+    private String emailAddressInResponse ;
     //ConstraintLayout constraintLayout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,13 +76,34 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    public void messageFromUser(String queryFromUser){
-        if (!queryFromUser.equals("")){
-            MessageQuery query = new MessageQuery(queryFromUser);
+    public void messageFromUser(String suggestionSelected){
+        if(suggestionSelected.equals("Email Instructor")) {
+            MessageQuery query = new MessageQuery(suggestionSelected);
+            messagesList.add(query);
+            adapter.notifyDataSetChanged();
+            String toField = emailAddressInResponse;
+            sendemail(toField);
+        }
+        else if (!suggestionSelected.equals("")){
+            MessageQuery query = new MessageQuery(suggestionSelected);
             messagesList.add(query);
             adapter.notifyDataSetChanged();
             sendRequestAndprintResponse(query);
         }
+
+    }
+
+    public void EmailAddressFromChatBot(String response) {
+        emailAddressInResponse = response;
+    }
+
+
+    private void sendemail(String toField) {
+        String [] receiver = new String[]{toField};
+        Intent mailIntent = new Intent(Intent.ACTION_SEND);
+        mailIntent.putExtra(Intent.EXTRA_EMAIL, receiver);
+        mailIntent.setType("message/rfc822");
+        startActivity(Intent.createChooser(mailIntent, "Choose an application to send your mail with"));
     }
 
     @Override

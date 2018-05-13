@@ -1,6 +1,7 @@
 package edu.sjsu.zen.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -79,12 +80,16 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
         void setItem(String item) {
             categorySelected = item;
         }
+        private String getItem() {
+            return categorySelected;
+        }
 
         @Override
         public void onClick(View view) {
             //Toast.makeText(context, "onClick "+ categorySelected, Toast.LENGTH_SHORT).show();
             if (context instanceof ChatRoom) {
                 ((ChatRoom) context).messageFromUser(categorySelected);
+
             }
         }
     }

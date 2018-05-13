@@ -10,7 +10,7 @@ import java.util.List;
 
 public enum Category {
     UNKNOWN(-1, new ArrayList<Suggestion>()),
-    INSTRUCTOR_EMAIL(4, Arrays.asList(Suggestion.INSTRUCTOR_PHONE_NO, Suggestion.INSTRUCTOR_OFFICE_HOURS,
+    INSTRUCTOR_EMAIL(4, Arrays.asList(Suggestion.EMAIL_INSTRUCTOR, Suggestion.INSTRUCTOR_PHONE_NO, Suggestion.INSTRUCTOR_OFFICE_HOURS,
             Suggestion.INSTRUCTOR_OFFICE_LOCATION,Suggestion.INSTRUCTOR_NAME)),
     INSTRUCTOR_NAME(5, Arrays.asList(Suggestion.INSTRUCTOR_EMAIL,Suggestion.INSTRUCTOR_PHONE_NO,
             Suggestion.INSTRUCTOR_OFFICE_HOURS,Suggestion.INSTRUCTOR_OFFICE_LOCATION)),
@@ -23,7 +23,7 @@ public enum Category {
     INSTRUCTOR_OFFICE_HOURS(6, Arrays.asList(Suggestion.INSTRUCTOR_EMAIL,Suggestion.INSTRUCTOR_PHONE_NO,
             Suggestion.INSTRUCTOR_OFFICE_LOCATION)),
     COURSE_NAME(9,Arrays.asList(Suggestion.COURSE_PRE_REQUIREMENTS,
-            Suggestion.CLASS_TIMINGS,Suggestion.CLASS_LOCATION, Suggestion.COURSE_OBJECTIVE,
+            Suggestion.CLASS_TIMINGS,Suggestion.CLASS_LOCATION,
             Suggestion.COURSE_WEBSITE,Suggestion.INSTRUCTOR_OFFICE_HOURS)),
     COURSE_PRE_REQUIREMENTS(10,Arrays.asList(Suggestion.COURSE_NAME, Suggestion.INSTRUCTOR_NAME,
             Suggestion.COURSE_OBJECTIVE)),
@@ -35,7 +35,7 @@ public enum Category {
             Suggestion.REFERENCE_MATERIALS)),
     COURSE_GRADING(21,Arrays.asList(Suggestion.CLASS_TIMINGS, Suggestion.CLASS_LOCATION, Suggestion.COURSE_WEBSITE,
             Suggestion.REFERENCE_MATERIALS, Suggestion.COURSE_PRE_REQUIREMENTS)),
-    COURSE_OBJECTIVE(13, Arrays.asList(Suggestion.COURSE_WEBSITE,
+    COURSE_OBJECTIVE(14, Arrays.asList(Suggestion.COURSE_WEBSITE,
             Suggestion.REFERENCE_MATERIALS,Suggestion.CLASS_LOCATION,Suggestion.CLASS_TIMINGS)),
     FINAL_EXAM_WEIGHTAGE(21, Arrays.asList(Suggestion.FINAL_EXAM_DUE_DATE, Suggestion.PROJECT_WEIGHTAGE,
             Suggestion.ASSIGNMENT_WEIGHTAGE,Suggestion.QUIZZ_WEIGHTAGE, Suggestion.LAB_WEIGHTAGE)),
@@ -81,11 +81,12 @@ public enum Category {
             case 10: return COURSE_PRE_REQUIREMENTS;
             case 11: return CLASS_TIMINGS;
             case 12: return COURSE_WEBSITE;
-            case 13: return COURSE_OBJECTIVE;
+            case 13: return CLASS_LOCATION;
+            case 14: return COURSE_OBJECTIVE;
             case 18: return PROJECT_DUE_DATE;
             case 19: return MID_TERM_DUE_DATE;
             case 20: return FINAL_EXAM_DUE_DATE;
-            case 21: return COURSE_GRADING;
+            case 21: return COURSE_GRADING ;
             default: return UNKNOWN;
         }
 

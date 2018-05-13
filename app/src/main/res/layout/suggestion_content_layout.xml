@@ -17,13 +17,14 @@
         android:src="@drawable/course_website"
         android:scaleType="fitCenter"/>
   -->
+
     <TextView
         android:id="@+id/suggestion_tv"
         android:layout_width="wrap_content"
         android:layout_height="37dp"
         android:background="@drawable/button_back"
         android:text="Instructor Details"
-        android:textColor="@color/buttonText"
+        android:textColor="@color/darkGrey"
         android:textSize="14dp"
         android:paddingRight="8dp"
         android:paddingLeft="8dp"
