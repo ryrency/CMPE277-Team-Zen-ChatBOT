@@ -28,6 +28,7 @@ public enum Category {
     COURSE_PRE_REQUIREMENTS(10,Arrays.asList(Suggestion.COURSE_NAME, Suggestion.INSTRUCTOR_NAME,
             Suggestion.INSTRUCTOR_EMAIL, Suggestion.FINAL_EXAM_WEIGHTAGE,Suggestion.PROJECT_WEIGHTAGE)),
     CLASS_TIMINGS(11,Arrays.asList(Suggestion.SET_REMINDER, Suggestion.CLASS_LOCATION, Suggestion.COURSE_PRE_REQUIREMENTS,
+
             Suggestion.REFERENCE_MATERIALS)),
     CLASS_LOCATION(13,Arrays.asList(Suggestion.CLASS_TIMINGS,Suggestion.INSTRUCTOR_CONTACT, Suggestion.INSTRUCTOR_NAME,
             Suggestion.COURSE_WEBSITE)),
@@ -57,7 +58,8 @@ public enum Category {
     PROJECT_DUE_DATE(18,Arrays.asList(Suggestion.SET_REMINDER, Suggestion.PROJECT_WEIGHTAGE, Suggestion.FINAL_EXAM_WEIGHTAGE,
             Suggestion.FINAL_EXAM_DUE_DATE)),
     REFERENCE_MATERIALS(23,Arrays.asList(Suggestion.COURSE_WEBSITE,
-            Suggestion.CLASS_LOCATION, Suggestion.CLASS_TIMINGS))
+            Suggestion.CLASS_LOCATION, Suggestion.CLASS_TIMINGS)),
+    INSTRUCTOR_DETAILS(25, Arrays.asList(Suggestion.COURSE_WEBSITE))
     ;
 
 
@@ -87,6 +89,7 @@ public enum Category {
             case 19: return MID_TERM_DUE_DATE;
             case 20: return FINAL_EXAM_DUE_DATE;
             case 21: return COURSE_GRADING ;
+            case 25: return INSTRUCTOR_DETAILS;
             default: return UNKNOWN;
         }
 

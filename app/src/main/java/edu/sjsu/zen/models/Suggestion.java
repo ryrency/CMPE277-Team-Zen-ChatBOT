@@ -29,7 +29,8 @@ public enum Suggestion {
     FINAL_EXAM_DUE_DATE("when is final exam?",0),
     MID_TERM_DUE_DATE("when is mid-term?",0),
     PROJECT_DUE_DATE("when is project due?",0),
-    REFERENCE_MATERIALS("reference materials",0);
+    REFERENCE_MATERIALS("reference materials",0),
+    INSTRUCTOR_DETAILS("Instructor details",0);
 
     private final String name;
     private final int iconResId;

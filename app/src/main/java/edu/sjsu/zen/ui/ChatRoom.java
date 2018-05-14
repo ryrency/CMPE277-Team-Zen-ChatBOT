@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,11 +44,16 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     private MessageAdapter adapter;
     private String courseContext;
     private RecyclerView recyclerView;
+    private DrawerLayout mDrawerLayout;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_chat_room);
+
+        /*Drawer Navigation set up*/
+        setNavigationLayout();
 
         Bundle extras = getIntent().getExtras();
         courseContext = extras.getString("COURSE_CONTEXT");
@@ -62,6 +71,37 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
 
         Button send = (Button)findViewById(R.id.button_chatroom_send);
         send.setOnClickListener(this);
+    }
+
+
+    private void setNavigationLayout(){
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        int id = menuItem.getItemId();
+
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+
+                        // close drawer when item is tapped
+                        mDrawerLayout.closeDrawer(Gravity.START);
+                        if (menuItem.getItemId() == R.id.cmpe01)
+                            courseContext = "273-01";
+                        else
+                            courseContext = "272-02";
+                        MessageQuery query = new MessageQuery("course name "+courseContext);
+                        sendRequestAndprintResponse(query);
+
+                        return true;
+                    }
+                });
+
     }
 
     public void clear(View view){
@@ -101,15 +141,15 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
             String dueDate = "";
             String title = "";
             if(messageResponse.getCategory() == Category.CLASS_TIMINGS){
-                 beginTime = messageResponse.getString(MessageResponse.CLASS_START_TIME);
-                 day = messageResponse.getString(MessageResponse.DAY_OF_CLASS);
-                 title = messageResponse.getString("course_name") + " class";
+                beginTime = messageResponse.getString(MessageResponse.CLASS_START_TIME);
+                day = messageResponse.getString(MessageResponse.DAY_OF_CLASS);
+                title = messageResponse.getString("course_name") + " class";
                 setReminderForCourseTimings(beginTime,day,title);
             }
             else {
-              dueDate = messageResponse.getString(MessageResponse.DUE_DATE);
-              title = messageResponse.getCategory().name();
-              setReminderForCourseActivities(dueDate,title);
+                dueDate = messageResponse.getString(MessageResponse.DUE_DATE);
+                title = messageResponse.getCategory().name();
+                setReminderForCourseActivities(dueDate,title);
             }
         }
         else {
@@ -166,33 +206,33 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         Log.d(TAG,"inside sendRequestAndprintResponse()");
         try{
             JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET,
-                "http://10.0.2.2:5000/classify?text="+ query.getQuery(),
-                null,
-                new Response.Listener<JSONObject>() {
-                    public void onResponse(JSONObject response){
-                        Log.d(TAG,"response is:" +response.toString());
-                        MessageResponse messageResponse = MessageResponse.fromJSONObjectResponse(response);
-                        addMessageObject(messageResponse);
+                    Request.Method.GET,
+                    "http://10.0.2.2:5000/classify?text="+ query.getQuery(),
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        public void onResponse(JSONObject response){
+                            Log.d(TAG,"response is:" +response.toString());
+                            MessageResponse messageResponse = MessageResponse.fromJSONObjectResponse(response);
+                            addMessageObject(messageResponse);
 
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e(TAG, "error making server request", error);
+                        }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "error making server request", error);
-                    }
-                }
-        );
+            );
 
-        VolleySingleton
-                .getInstance(getApplicationContext())
-                .getRequestQueue(this.getApplicationContext())
-                .add(request);
-    }
-    catch (Exception e){
+            VolleySingleton
+                    .getInstance(getApplicationContext())
+                    .getRequestQueue(this.getApplicationContext())
+                    .add(request);
+        }
+        catch (Exception e){
             e.printStackTrace();
-    }
+        }
     }
 
 

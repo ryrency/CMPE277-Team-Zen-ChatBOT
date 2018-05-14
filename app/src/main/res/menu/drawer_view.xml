@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/cmpe01"
+            android:title="SP18: CMPE273 Section 01"
+            android:icon="@drawable/coursebook"
+            />
+        <item
+            android:id="@+id/cmpe02"
+            android:title="SP18: CMPE272 Section 02"
+            android:icon="@drawable/coursebook"
+            />
+    </group>
+</menu>
