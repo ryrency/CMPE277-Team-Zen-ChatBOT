@@ -3,11 +3,12 @@ package edu.sjsu.zen.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,11 +21,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
 
+import edu.sjsu.zen.models.Category;
 import edu.sjsu.zen.models.MessageQuery;
 import edu.sjsu.zen.R;
 import edu.sjsu.zen.adapter.MessageAdapter;
 import edu.sjsu.zen.models.MessageResponse;
+import edu.sjsu.zen.models.Suggestion;
 import edu.sjsu.zen.networking.VolleySingleton;
+import edu.sjsu.zen.utils.DateTimeUtils;
 
 import java.util.ArrayList;
 
@@ -34,10 +38,9 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = ChatRoom.class.getSimpleName();
     private final ArrayList<Object> messagesList = new ArrayList<>();
     private MessageAdapter adapter;
-    private String emailAddressInResponse ;
-    private static boolean RUN_ONCE = true;
     private String courseContext;
-    //ConstraintLayout constraintLayout;
+    private RecyclerView recyclerView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,14 +51,14 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         MessageQuery query = new MessageQuery("course name "+courseContext);
         sendRequestAndprintResponse(query);
 
-        RecyclerView recycler = (RecyclerView)findViewById(R.id.reyclerview_message_list);
+        recyclerView = (RecyclerView)findViewById(R.id.reyclerview_message_list);
         adapter = new MessageAdapter(messagesList,this);
         LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(ChatRoom.this, LinearLayoutManager.VERTICAL,
                 false);
-        recycler.setLayoutManager(verticalLayoutManager);
+        recyclerView.setLayoutManager(verticalLayoutManager);
         //messagesList.add(new User2("Select the course of interest"));
 
-        recycler.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
         Button send = (Button)findViewById(R.id.button_chatroom_send);
         send.setOnClickListener(this);
@@ -75,35 +78,53 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         if (!textFromUser.equals("")){
             Log.d(TAG+"Text from User ",textFromUser);
             MessageQuery query = new MessageQuery(textFromUser);
-            messagesList.add(query);
-            adapter.notifyDataSetChanged();
+            addMessageObject(query);
             userMessageView.setText("");
             sendRequestAndprintResponse(query);
 
         }
     }
 
-    public void messageFromUser(String suggestionSelected){
-        if(suggestionSelected.equals("Email Instructor")) {
-            MessageQuery query = new MessageQuery(suggestionSelected);
-            messagesList.add(query);
-            adapter.notifyDataSetChanged();
-            String toField = emailAddressInResponse;
-            sendemail(toField);
+    public void onSuggestionClicked(Suggestion clickedSuggestion, MessageResponse messageResponse){
+        if(clickedSuggestion == Suggestion.EMAIL_INSTRUCTOR) {
+            MessageQuery query = new MessageQuery(clickedSuggestion.getName());
+            addMessageObject(query);
+            String toField = messageResponse.getString(MessageResponse.INSTRUCTOR_EMAIL);
+            if (!TextUtils.isEmpty(toField)) {
+                sendemail(toField);
+            }
+        } else if (clickedSuggestion == Suggestion.SET_REMINDER) {
+            MessageQuery query = new MessageQuery(clickedSuggestion.getName());
+            addMessageObject(query);
+            String beginTime = "";
+            String day = "";
+            String dueDate = "";
+            String title = "";
+            if(messageResponse.getCategory() == Category.CLASS_TIMINGS){
+                 beginTime = messageResponse.getString(MessageResponse.CLASS_START_TIME);
+                 day = messageResponse.getString(MessageResponse.DAY_OF_CLASS);
+                 title = messageResponse.getString("course_name") + " class";
+                setReminderForCourseTimings(beginTime,day,title);
+            }
+            else {
+              dueDate = messageResponse.getString(MessageResponse.DUE_DATE);
+              title = messageResponse.getCategory().name();
+              setReminderForCourseActivities(dueDate,title);
+            }
         }
-        else if (!suggestionSelected.equals("")){
-            MessageQuery query = new MessageQuery(suggestionSelected);
-            messagesList.add(query);
-            adapter.notifyDataSetChanged();
+        else {
+            MessageQuery query = new MessageQuery(clickedSuggestion.getName());
+            addMessageObject(query);
             sendRequestAndprintResponse(query);
         }
 
     }
 
-    public void EmailAddressFromChatBot(String response) {
-        emailAddressInResponse = response;
+    private void addMessageObject(Object messageObject) {
+        messagesList.add(messageObject);
+        adapter.notifyDataSetChanged();
+        recyclerView.scrollToPosition(messagesList.size() - 1);
     }
-
 
     private void sendemail(String toField) {
         String [] receiver = new String[]{toField};
@@ -111,6 +132,28 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         mailIntent.putExtra(Intent.EXTRA_EMAIL, receiver);
         mailIntent.setType("message/rfc822");
         startActivity(Intent.createChooser(mailIntent, "Choose an application to send your mail with"));
+    }
+
+    private void setReminderForCourseActivities(String dueDate, String title) {
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                DateTimeUtils.getNextEventDateTimeInMillis(dueDate));
+        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+        intent.putExtra(CalendarContract.Events.TITLE, title);
+        startActivity(intent);
+
+
+    }
+
+    private void setReminderForCourseTimings(String beginTime, String dayName, String title) {
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                DateTimeUtils.getNextEventDateTimeInMillis(dayName, beginTime));
+        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+        intent.putExtra(CalendarContract.Events.TITLE, title);
+        startActivity(intent);
     }
 
     @Override
@@ -130,8 +173,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
                     public void onResponse(JSONObject response){
                         Log.d(TAG,"response is:" +response.toString());
                         MessageResponse messageResponse = MessageResponse.fromJSONObjectResponse(response);
-                        messagesList.add(messageResponse);
-                        adapter.notifyDataSetChanged();
+                        addMessageObject(messageResponse);
 
                     }
                 },

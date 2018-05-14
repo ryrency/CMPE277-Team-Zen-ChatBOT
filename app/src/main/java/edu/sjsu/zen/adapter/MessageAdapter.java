@@ -1,10 +1,10 @@
 package edu.sjsu.zen.adapter;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.CollapsibleActionView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,7 @@ import edu.sjsu.zen.models.Category;
 import edu.sjsu.zen.models.MessageQuery;
 import edu.sjsu.zen.models.MessageResponse;
 import edu.sjsu.zen.R;
-import edu.sjsu.zen.ui.ChatRoom;
+import edu.sjsu.zen.utils.ScreenUtils;
 
 import java.util.ArrayList;
 
@@ -24,6 +24,7 @@ import static android.support.v7.widget.RecyclerView.*;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final String TAG = MessageAdapter.class.getSimpleName();
+    private final int suggestionItemSpacing;
 
     final ArrayList<Object> suggestions = new ArrayList<>();
     private final ArrayList<Object> messagesList;
@@ -33,6 +34,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public MessageAdapter(ArrayList<Object> messagesList,Context context){
         this.messagesList = messagesList;
         this.context = context;
+        suggestionItemSpacing = ScreenUtils.convertDpToPixel(8, context);
         layoutInflater = LayoutInflater.from(context);
         Log.i(TAG,"INTO ADATPER");
 
@@ -145,7 +147,19 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             suggestionRecyclerView = (RecyclerView)itemView.findViewById(R.id.reyclerview_suggestion_list);
             suggestionRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             suggestionsAdapter = new SuggestionsAdapter(context);
+            setSpaceBetweenSuggestions();
             suggestionRecyclerView.setAdapter(suggestionsAdapter);
+        }
+
+        private void setSpaceBetweenSuggestions() {
+            RecyclerView.ItemDecoration decoration = new ItemDecoration() {
+                @Override
+                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, State state) {
+                    outRect.right = suggestionItemSpacing;
+                }
+            };
+
+            suggestionRecyclerView.addItemDecoration(decoration);
         }
 
         void bindData(MessageResponse messageResponse) {
@@ -155,15 +169,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 suggestionRecyclerView.setVisibility(VISIBLE);
                 messageText.setText(messageResponse.getDisplayText());
-                if(messageResponse.getDisplayText().equals
-                        (messageResponse.getString("instructor_email"))) {
-                    String response = messageResponse.getString("instructor_email");
-                    if (context instanceof ChatRoom) {
-                        ((ChatRoom) context).EmailAddressFromChatBot(response);
-
-                    }
-                }
-                suggestionsAdapter.setSuggestions(messageResponse.getCategory().getSuggestions());
+                suggestionsAdapter.setData(messageResponse);
                 suggestionsAdapter.notifyDataSetChanged();
             }
         }

@@ -18,6 +18,7 @@ import java.util.List;
 
 import edu.sjsu.zen.R;
 import edu.sjsu.zen.models.MessageQuery;
+import edu.sjsu.zen.models.MessageResponse;
 import edu.sjsu.zen.models.Suggestion;
 import edu.sjsu.zen.ui.ChatRoom;
 
@@ -27,15 +28,17 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
     private final List<Suggestion> suggestions = new ArrayList<>();
     private final Context context;
     private final LayoutInflater layoutInflater;
+    private MessageResponse messageResponse;
 
     SuggestionsAdapter(Context context){
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
     }
 
-    public void setSuggestions(List<Suggestion> suggestions) {
+    public void setData(MessageResponse messageResponse) {
+        this.messageResponse = messageResponse;
         this.suggestions.clear();
-        this.suggestions.addAll(suggestions);
+        this.suggestions.addAll(messageResponse.getValidSuggestions());
     }
 
     @NonNull
@@ -47,27 +50,8 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        configureViewHolder(viewHolder,position);
-        viewHolder.setItem(suggestions.get(position).getName());
-    }
-
-    private void configureViewHolder(ViewHolder viewHolder, int position){
-        try {
-            Suggestion suggestion = suggestions.get(position);
-            ImageView suggestionIcon;
-            TextView suggestionTextView;
-            suggestionTextView = viewHolder.suggestionText;
-            suggestionIcon = viewHolder.suggestionIcon;
-            suggestionTextView.setText(suggestion.getName());
-            if (suggestion.getIconResId() == 0) {
-                suggestionIcon.setVisibility(View.GONE);
-            } else {
-                suggestionIcon.setImageResource(suggestion.getIconResId());
-                suggestionIcon.setVisibility(View.VISIBLE);
-            }
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+        Suggestion suggestion = suggestions.get(position);
+        viewHolder.bindData(suggestion);
     }
 
     @Override
@@ -75,32 +59,33 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
         return suggestions.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView suggestionText;
         private final ImageView suggestionIcon;
-        private String categorySelected;
 
         ViewHolder(View suggestionsView){
             super(suggestionsView);
             suggestionIcon = (ImageView) suggestionsView.findViewById(R.id.suggestion_icons);
             suggestionText = (TextView)suggestionsView.findViewById(R.id.suggestion_tv);
-            suggestionText.setOnClickListener(this);
         }
 
-        void setItem(String item) {
-            categorySelected = item;
-        }
-        private String getItem() {
-            return categorySelected;
-        }
-
-        @Override
-        public void onClick(View view) {
-            //Toast.makeText(context, "onClick "+ categorySelected, Toast.LENGTH_SHORT).show();
-            if (context instanceof ChatRoom) {
-                ((ChatRoom) context).messageFromUser(categorySelected);
-
+        void bindData(final Suggestion suggestion) {
+            suggestionText.setText(suggestion.getName());
+            if (suggestion.getIconResId() == 0) {
+                suggestionIcon.setVisibility(View.GONE);
+            } else {
+                suggestionIcon.setImageResource(suggestion.getIconResId());
+                suggestionIcon.setVisibility(View.VISIBLE);
             }
+
+            suggestionText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (context instanceof ChatRoom) {
+                        ((ChatRoom)context).onSuggestionClicked(suggestion, messageResponse);
+                    }
+                }
+            });
         }
     }
 }

@@ -26,8 +26,8 @@ public enum Category {
             Suggestion.CLASS_TIMINGS,Suggestion.CLASS_LOCATION,Suggestion.INSTRUCTOR_NAME,
             Suggestion.COURSE_WEBSITE,Suggestion.INSTRUCTOR_OFFICE_HOURS)),
     COURSE_PRE_REQUIREMENTS(10,Arrays.asList(Suggestion.COURSE_NAME, Suggestion.INSTRUCTOR_NAME,
-            Suggestion.COURSE_OBJECTIVE)),
-    CLASS_TIMINGS(11,Arrays.asList(Suggestion.CLASS_LOCATION, Suggestion.COURSE_PRE_REQUIREMENTS,
+            Suggestion.INSTRUCTOR_EMAIL, Suggestion.FINAL_EXAM_WEIGHTAGE,Suggestion.PROJECT_WEIGHTAGE)),
+    CLASS_TIMINGS(11,Arrays.asList(Suggestion.SET_REMINDER, Suggestion.CLASS_LOCATION, Suggestion.COURSE_PRE_REQUIREMENTS,
             Suggestion.REFERENCE_MATERIALS)),
     CLASS_LOCATION(13,Arrays.asList(Suggestion.CLASS_TIMINGS,Suggestion.INSTRUCTOR_CONTACT, Suggestion.INSTRUCTOR_NAME,
             Suggestion.COURSE_WEBSITE)),
@@ -50,11 +50,11 @@ public enum Category {
             Suggestion.ASSIGNMENT_WEIGHTAGE, Suggestion.QUIZZ_WEIGHTAGE,Suggestion.PROJECT_WEIGHTAGE)),
     QUIZZ_WEIGHTAGE(21,Arrays.asList(Suggestion.FINAL_EXAM_WEIGHTAGE, Suggestion.MID_TERM_WEIGHTAGE,
             Suggestion.ASSIGNMENT_WEIGHTAGE, Suggestion.PROJECT_WEIGHTAGE,Suggestion.LAB_WEIGHTAGE)),
-    FINAL_EXAM_DUE_DATE(20,Arrays.asList(Suggestion.FINAL_EXAM_WEIGHTAGE,Suggestion.PROJECT_DUE_DATE,
+    FINAL_EXAM_DUE_DATE(20,Arrays.asList(Suggestion.SET_REMINDER,Suggestion.FINAL_EXAM_WEIGHTAGE,Suggestion.PROJECT_DUE_DATE,
             Suggestion.PROJECT_WEIGHTAGE, Suggestion.QUIZZ_WEIGHTAGE)),
-    MID_TERM_DUE_DATE(19,Arrays.asList(Suggestion.MID_TERM_WEIGHTAGE,Suggestion.ASSIGNMENT_WEIGHTAGE,
+    MID_TERM_DUE_DATE(19,Arrays.asList(Suggestion.SET_REMINDER,Suggestion.MID_TERM_WEIGHTAGE,Suggestion.ASSIGNMENT_WEIGHTAGE,
             Suggestion.LAB_WEIGHTAGE, Suggestion.QUIZZ_WEIGHTAGE)),
-    PROJECT_DUE_DATE(18,Arrays.asList(Suggestion.PROJECT_WEIGHTAGE, Suggestion.FINAL_EXAM_WEIGHTAGE,
+    PROJECT_DUE_DATE(18,Arrays.asList(Suggestion.SET_REMINDER, Suggestion.PROJECT_WEIGHTAGE, Suggestion.FINAL_EXAM_WEIGHTAGE,
             Suggestion.FINAL_EXAM_DUE_DATE)),
     REFERENCE_MATERIALS(23,Arrays.asList(Suggestion.COURSE_WEBSITE,
             Suggestion.CLASS_LOCATION, Suggestion.CLASS_TIMINGS))
@@ -99,4 +99,6 @@ public enum Category {
     public List<Suggestion> getSuggestions() {
         return suggestions;
     }
+
+
 }
