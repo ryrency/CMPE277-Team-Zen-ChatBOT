@@ -30,7 +30,6 @@ import edu.sjsu.zen.models.MessageResponse;
 import edu.sjsu.zen.models.Suggestion;
 import edu.sjsu.zen.networking.VolleySingleton;
 import edu.sjsu.zen.utils.DateTimeUtils;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,9 +41,8 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = ChatRoom.class.getSimpleName();
     private final ArrayList<Object> messagesList = new ArrayList<>();
     private MessageAdapter adapter;
-    private static boolean RUN_ONCE = true;
     private String courseContext;
-    //ConstraintLayout constraintLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,13 +103,21 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
             MessageQuery query = new MessageQuery(clickedSuggestion.getName());
             messagesList.add(query);
             adapter.notifyDataSetChanged();
-            String beginTime = messageResponse.getString(MessageResponse.CLASS_START_TIME);
-            String day = messageResponse.getString(MessageResponse.DAY_OF_CLASS);
+            String beginTime = "";
+            String day = "";
+            String dueDate = "";
             String title = "";
-            if(messageResponse.getCategory() == Category.CLASS_TIMINGS) {
-                title = messageResponse.getString("course_name") + " class";
+            if(messageResponse.getCategory() == Category.CLASS_TIMINGS){
+                 beginTime = messageResponse.getString(MessageResponse.CLASS_START_TIME);
+                 day = messageResponse.getString(MessageResponse.DAY_OF_CLASS);
+                 title = messageResponse.getString("course_name") + " class";
+                setReminderForUser(beginTime,day,title);
             }
-            setReminderForUser(beginTime,day,title);
+            else {
+              dueDate = messageResponse.getString(MessageResponse.DUE_DATE);
+              title = messageResponse.getCategory().name();
+              setReminderForCourseActivities(dueDate,title);
+            }
         }
         else {
             MessageQuery query = new MessageQuery(clickedSuggestion.getName());
@@ -128,6 +134,18 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         mailIntent.putExtra(Intent.EXTRA_EMAIL, receiver);
         mailIntent.setType("message/rfc822");
         startActivity(Intent.createChooser(mailIntent, "Choose an application to send your mail with"));
+    }
+
+    private void setReminderForCourseActivities(String dueDate, String title) {
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                DateTimeUtils.getNextEventDateTimeInMillis(dueDate));
+        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+        intent.putExtra(CalendarContract.Events.TITLE, title);
+        startActivity(intent);
+
+
     }
 
     private void setReminderForUser(String beginTime, String dayName, String title) {

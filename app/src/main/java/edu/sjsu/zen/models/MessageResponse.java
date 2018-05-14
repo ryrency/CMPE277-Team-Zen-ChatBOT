@@ -12,6 +12,7 @@ public class MessageResponse {
     public static final String DAY_OF_CLASS = "day";
     public static final String CLASS_START_TIME = "class_start_time";
     public static final String CLASS_END_TIME = "class_end_time";
+    public static final String DUE_DATE = "due_date";
 
 
     private int categoryType;

@@ -57,4 +57,27 @@ public class DateTimeUtils {
             return -1;
         }
     }
+
+    public static long getNextEventDateTimeInMillis(String dueDate) {
+        Calendar calender = Calendar.getInstance();
+        String strDateFormat = "yyyy-MM-dd'T'HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat, Locale.US);
+        try{
+        Date date = sdf.parse(dueDate);
+        calender.setTime(date);
+        calender.get(Calendar.YEAR);
+        //calender.get(Calendar.WEEK_OF_YEAR);
+        //calender.get(Calendar.DATE);
+//        calender.get(Calendar.HOUR);
+//        calender.get(Calendar.MINUTE);
+//        calender.get(Calendar.SECOND);
+        return calender.getTimeInMillis();
+
+        }
+        catch(ParseException e) {
+            return -1;
+        }
+
+
+    }
 }
