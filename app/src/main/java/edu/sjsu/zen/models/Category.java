@@ -89,6 +89,7 @@ public enum Category {
             case 19: return MID_TERM_DUE_DATE;
             case 20: return FINAL_EXAM_DUE_DATE;
             case 21: return COURSE_GRADING ;
+            case 23: return REFERENCE_MATERIALS;
             case 25: return INSTRUCTOR_DETAILS;
             default: return UNKNOWN;
         }

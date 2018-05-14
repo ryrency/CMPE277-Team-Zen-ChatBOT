@@ -84,8 +84,9 @@ public class MessageResponse {
             case ASSIGNMENT_WEIGHTAGE:
             case LAB_WEIGHTAGE:
             case COURSE_GRADING: return getString("activity")+" weightage is "+getString("weightage");
+            case REFERENCE_MATERIALS: return "References for "+getString("course_name")+ " are -\n"+getString("references");
             case UNKNOWN:return "Sorry, I do not understand your question";
-            default: return "";
+            default: return "Sorry, I do not understand your question";
         }
     }
 

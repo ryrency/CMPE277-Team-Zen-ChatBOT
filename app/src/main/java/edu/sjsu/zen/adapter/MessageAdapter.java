@@ -72,6 +72,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     category == Category.ASSIGNMENT_WEIGHTAGE ||
                     category == Category.COURSE_GRADING ||
                     category == Category.QUIZZ_WEIGHTAGE ||
+                    category == Category.REFERENCE_MATERIALS ||
                     category == Category.UNKNOWN)
                 {
                 return 1;
