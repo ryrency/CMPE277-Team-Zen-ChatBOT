@@ -2,6 +2,7 @@ package edu.sjsu.zen.models;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +36,11 @@ public class MessageResponse {
         switch (category){
             case INSTRUCTOR_OFFICE_LOCATION: return "Office Location for " + getString("instructor_name") + " is " + getString("office_location");
             case INSTRUCTOR_NAME:return getString("instructor_name");
-            case INSTRUCTOR_PHONE_NO:return getString("instructor_name") +"'s Phone No. is "+getString("phn_no");
+            case INSTRUCTOR_PHONE_NO:
+                if (!getString("phn_no").equals("Office Phone No not shared"))
+                    return getString("instructor_name") +"'s Phone No. is "+getString("phn_no");
+                else
+                    return getString("instructor_name") +"'s Phone No. has not been shared";
             case INSTRUCTOR_EMAIL:return getString("instructor_email");
             case INSTRUCTOR_OFFICE_HOURS: return  getString("instructor_name")+"'s Office Hours are from - "+
                     getString("office_hours_start_time") + " - "
@@ -46,9 +51,22 @@ public class MessageResponse {
                     + " to "+ getString("class_end_time");
             case CLASS_LOCATION:return "The course is held at "+getString("class location");
             case COURSE_WEBSITE:return "The course website is "+getString("course_website");
-            case PROJECT_DUE_DATE:return "Project due date is "+getString("due_date");
-            case MID_TERM_DUE_DATE:return "Mid Term due date is "+getString("due_date");
-            case FINAL_EXAM_DUE_DATE:return "Final Exam Due Date is "+getString("due_date");
+            case PROJECT_DUE_DATE:
+                if (getString("due_date") != null)
+                    return "Project due date is "+getString("due_date").replace("T"," at ");
+                else
+                    return "Project due date has not been announced!";
+
+            case MID_TERM_DUE_DATE:
+                if (getString("due_date") != null)
+                    return "Mid Term is on "+getString("due_date").replace("T"," at ");
+                else
+                    return "Mid term date has not been announced!";
+            case FINAL_EXAM_DUE_DATE:
+                if (getString("due_date") != null)
+                    return "Final Exam is on "+getString("due_date".replace("T"," at "));
+                else
+                return "Final Exam date has not been announced!";
             case FINAL_EXAM_WEIGHTAGE:
             case PROJECT_WEIGHTAGE:
             case MID_TERM_WEIGHTAGE:
