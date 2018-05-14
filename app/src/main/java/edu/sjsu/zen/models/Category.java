@@ -27,7 +27,7 @@ public enum Category {
             Suggestion.COURSE_WEBSITE,Suggestion.INSTRUCTOR_OFFICE_HOURS)),
     COURSE_PRE_REQUIREMENTS(10,Arrays.asList(Suggestion.COURSE_NAME, Suggestion.INSTRUCTOR_NAME,
             Suggestion.COURSE_OBJECTIVE)),
-    CLASS_TIMINGS(11,Arrays.asList(Suggestion.CLASS_LOCATION, Suggestion.COURSE_PRE_REQUIREMENTS,
+    CLASS_TIMINGS(11,Arrays.asList(Suggestion.SET_REMINDER, Suggestion.CLASS_LOCATION, Suggestion.COURSE_PRE_REQUIREMENTS,
             Suggestion.REFERENCE_MATERIALS)),
     CLASS_LOCATION(13,Arrays.asList(Suggestion.CLASS_TIMINGS,Suggestion.INSTRUCTOR_CONTACT, Suggestion.INSTRUCTOR_NAME,
             Suggestion.COURSE_WEBSITE)),

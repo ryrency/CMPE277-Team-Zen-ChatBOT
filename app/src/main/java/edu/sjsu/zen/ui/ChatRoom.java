@@ -3,11 +3,13 @@ package edu.sjsu.zen.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,13 +22,19 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
 
+import edu.sjsu.zen.models.Category;
 import edu.sjsu.zen.models.MessageQuery;
 import edu.sjsu.zen.R;
 import edu.sjsu.zen.adapter.MessageAdapter;
 import edu.sjsu.zen.models.MessageResponse;
+import edu.sjsu.zen.models.Suggestion;
 import edu.sjsu.zen.networking.VolleySingleton;
+import edu.sjsu.zen.utils.DateTimeUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
@@ -34,7 +42,6 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = ChatRoom.class.getSimpleName();
     private final ArrayList<Object> messagesList = new ArrayList<>();
     private MessageAdapter adapter;
-    private String emailAddressInResponse ;
     private static boolean RUN_ONCE = true;
     private String courseContext;
     //ConstraintLayout constraintLayout;
@@ -83,16 +90,31 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    public void messageFromUser(String suggestionSelected){
-        if(suggestionSelected.equals("Email Instructor")) {
-            MessageQuery query = new MessageQuery(suggestionSelected);
+    public void onSuggestionClicked(Suggestion clickedSuggestion, MessageResponse messageResponse){
+        if(clickedSuggestion == Suggestion.EMAIL_INSTRUCTOR) {
+            MessageQuery query = new MessageQuery(clickedSuggestion.getName());
             messagesList.add(query);
             adapter.notifyDataSetChanged();
-            String toField = emailAddressInResponse;
-            sendemail(toField);
+            String toField = messageResponse.getString(MessageResponse.INSTRUCTOR_EMAIL);
+            if (!TextUtils.isEmpty(toField)) {
+                sendemail(toField);
+            }
         }
-        else if (!suggestionSelected.equals("")){
-            MessageQuery query = new MessageQuery(suggestionSelected);
+
+        if (clickedSuggestion == Suggestion.SET_REMINDER) {
+            MessageQuery query = new MessageQuery(clickedSuggestion.getName());
+            messagesList.add(query);
+            adapter.notifyDataSetChanged();
+            String beginTime = messageResponse.getString(MessageResponse.CLASS_START_TIME);
+            String day = messageResponse.getString(MessageResponse.DAY_OF_CLASS);
+            String title = "";
+            if(messageResponse.getCategory() == Category.CLASS_TIMINGS) {
+                title = messageResponse.getString("course_name") + " class";
+            }
+            setReminderForUser(beginTime,day,title);
+        }
+        else {
+            MessageQuery query = new MessageQuery(clickedSuggestion.getName());
             messagesList.add(query);
             adapter.notifyDataSetChanged();
             sendRequestAndprintResponse(query);
@@ -100,17 +122,22 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-    public void EmailAddressFromChatBot(String response) {
-        emailAddressInResponse = response;
-    }
-
-
     private void sendemail(String toField) {
         String [] receiver = new String[]{toField};
         Intent mailIntent = new Intent(Intent.ACTION_SEND);
         mailIntent.putExtra(Intent.EXTRA_EMAIL, receiver);
         mailIntent.setType("message/rfc822");
         startActivity(Intent.createChooser(mailIntent, "Choose an application to send your mail with"));
+    }
+
+    private void setReminderForUser(String beginTime, String dayName, String title) {
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                DateTimeUtils.getNextEventDateTimeInMillis(dayName, beginTime));
+        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+        intent.putExtra(CalendarContract.Events.TITLE, title);
+        startActivity(intent);
     }
 
     @Override

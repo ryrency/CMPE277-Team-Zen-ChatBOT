@@ -7,6 +7,7 @@ import edu.sjsu.zen.R;
 public enum Suggestion {
     INSTRUCTOR_EMAIL("instructor email address", 0),
     EMAIL_INSTRUCTOR("Email Instructor", R.drawable.email_icon),
+    SET_REMINDER("set reminder", R.drawable.office_hours),
     INSTRUCTOR_NAME("who is instructor?", 0),
     INSTRUCTOR_CONTACT("instructor contact", 0),
     INSTRUCTOR_PHONE_NO("instructor phone number",0),

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.CollapsibleActionView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import edu.sjsu.zen.models.Category;
 import edu.sjsu.zen.models.MessageQuery;
 import edu.sjsu.zen.models.MessageResponse;
 import edu.sjsu.zen.R;
-import edu.sjsu.zen.ui.ChatRoom;
 
 import java.util.ArrayList;
 
@@ -155,15 +153,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 suggestionRecyclerView.setVisibility(VISIBLE);
                 messageText.setText(messageResponse.getDisplayText());
-                if(messageResponse.getDisplayText().equals
-                        (messageResponse.getString("instructor_email"))) {
-                    String response = messageResponse.getString("instructor_email");
-                    if (context instanceof ChatRoom) {
-                        ((ChatRoom) context).EmailAddressFromChatBot(response);
-
-                    }
-                }
-                suggestionsAdapter.setSuggestions(messageResponse.getCategory().getSuggestions());
+                suggestionsAdapter.setData(messageResponse);
                 suggestionsAdapter.notifyDataSetChanged();
             }
         }
