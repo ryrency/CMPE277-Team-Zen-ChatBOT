@@ -38,7 +38,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
     public void setData(MessageResponse messageResponse) {
         this.messageResponse = messageResponse;
         this.suggestions.clear();
-        this.suggestions.addAll(messageResponse.getCategory().getSuggestions());
+        this.suggestions.addAll(messageResponse.getValidSuggestions());
     }
 
     @NonNull

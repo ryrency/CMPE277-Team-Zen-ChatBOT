@@ -6,6 +6,9 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MessageResponse {
     public static final String INSTRUCTOR_NAME = "instructor_name";
     public static final String INSTRUCTOR_EMAIL = "instructor_email";
@@ -54,7 +57,10 @@ public class MessageResponse {
                     + " to "+ getString(CLASS_END_TIME);
             case CLASS_LOCATION:return "The course is held at "+getString("class location");
             case COURSE_WEBSITE:return "The course website is "+getString("course_website");
-            case PROJECT_DUE_DATE:return "Project due date is "+getString("due_date");
+            case PROJECT_DUE_DATE: if (getString("due_date") != null)
+                return "Project due date is on "+getString("due_date".replace("T"," at "));
+            else
+                return "Final Exam date has not been announced!";
             case MID_TERM_DUE_DATE:return "Mid Term due date is "+getString("due_date");
             case FINAL_EXAM_DUE_DATE:return "Final Exam Due Date is "+getString("due_date");
             case FINAL_EXAM_WEIGHTAGE:
@@ -81,5 +87,24 @@ public class MessageResponse {
         } catch (JSONException e) {
             return null;
         }
+    }
+
+    public List<Suggestion> getValidSuggestions() {
+        List<Suggestion> filteredSuggestions = new ArrayList<>();
+        Category category = getCategory();
+        for (Suggestion suggestion  : category.getSuggestions()) {
+            if (category == Category.INSTRUCTOR_EMAIL && suggestion == Suggestion.EMAIL_INSTRUCTOR){
+                if (getString(INSTRUCTOR_EMAIL) != null) {
+                    filteredSuggestions.add(suggestion);
+                }
+            } else if (category == Category.PROJECT_DUE_DATE && suggestion == Suggestion.SET_REMINDER){
+                if (getString(DUE_DATE) != null) {
+                    filteredSuggestions.add(suggestion);
+                }
+            } else {
+                filteredSuggestions.add(suggestion);
+            }
+        }
+        return filteredSuggestions;
     }
 }

@@ -99,4 +99,6 @@ public enum Category {
     public List<Suggestion> getSuggestions() {
         return suggestions;
     }
+
+
 }

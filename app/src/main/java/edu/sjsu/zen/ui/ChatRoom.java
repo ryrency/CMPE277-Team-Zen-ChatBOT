@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,10 +29,8 @@ import edu.sjsu.zen.models.MessageResponse;
 import edu.sjsu.zen.models.Suggestion;
 import edu.sjsu.zen.networking.VolleySingleton;
 import edu.sjsu.zen.utils.DateTimeUtils;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 
 
 public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
@@ -42,6 +39,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     private final ArrayList<Object> messagesList = new ArrayList<>();
     private MessageAdapter adapter;
     private String courseContext;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,14 +51,14 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         MessageQuery query = new MessageQuery("course name "+courseContext);
         sendRequestAndprintResponse(query);
 
-        RecyclerView recycler = (RecyclerView)findViewById(R.id.reyclerview_message_list);
+        recyclerView = (RecyclerView)findViewById(R.id.reyclerview_message_list);
         adapter = new MessageAdapter(messagesList,this);
         LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(ChatRoom.this, LinearLayoutManager.VERTICAL,
                 false);
-        recycler.setLayoutManager(verticalLayoutManager);
+        recyclerView.setLayoutManager(verticalLayoutManager);
         //messagesList.add(new User2("Select the course of interest"));
 
-        recycler.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
         Button send = (Button)findViewById(R.id.button_chatroom_send);
         send.setOnClickListener(this);
@@ -80,8 +78,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         if (!textFromUser.equals("")){
             Log.d(TAG+"Text from User ",textFromUser);
             MessageQuery query = new MessageQuery(textFromUser);
-            messagesList.add(query);
-            adapter.notifyDataSetChanged();
+            addMessageObject(query);
             userMessageView.setText("");
             sendRequestAndprintResponse(query);
 
@@ -91,18 +88,14 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     public void onSuggestionClicked(Suggestion clickedSuggestion, MessageResponse messageResponse){
         if(clickedSuggestion == Suggestion.EMAIL_INSTRUCTOR) {
             MessageQuery query = new MessageQuery(clickedSuggestion.getName());
-            messagesList.add(query);
-            adapter.notifyDataSetChanged();
+            addMessageObject(query);
             String toField = messageResponse.getString(MessageResponse.INSTRUCTOR_EMAIL);
             if (!TextUtils.isEmpty(toField)) {
                 sendemail(toField);
             }
-        }
-
-        if (clickedSuggestion == Suggestion.SET_REMINDER) {
+        } else if (clickedSuggestion == Suggestion.SET_REMINDER) {
             MessageQuery query = new MessageQuery(clickedSuggestion.getName());
-            messagesList.add(query);
-            adapter.notifyDataSetChanged();
+            addMessageObject(query);
             String beginTime = "";
             String day = "";
             String dueDate = "";
@@ -111,7 +104,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
                  beginTime = messageResponse.getString(MessageResponse.CLASS_START_TIME);
                  day = messageResponse.getString(MessageResponse.DAY_OF_CLASS);
                  title = messageResponse.getString("course_name") + " class";
-                setReminderForUser(beginTime,day,title);
+                setReminderForCourseTimings(beginTime,day,title);
             }
             else {
               dueDate = messageResponse.getString(MessageResponse.DUE_DATE);
@@ -121,11 +114,16 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         }
         else {
             MessageQuery query = new MessageQuery(clickedSuggestion.getName());
-            messagesList.add(query);
-            adapter.notifyDataSetChanged();
+            addMessageObject(query);
             sendRequestAndprintResponse(query);
         }
 
+    }
+
+    private void addMessageObject(Object messageObject) {
+        messagesList.add(messageObject);
+        adapter.notifyDataSetChanged();
+        recyclerView.scrollToPosition(messagesList.size() - 1);
     }
 
     private void sendemail(String toField) {
@@ -148,7 +146,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-    private void setReminderForUser(String beginTime, String dayName, String title) {
+    private void setReminderForCourseTimings(String beginTime, String dayName, String title) {
         Intent intent = new Intent(Intent.ACTION_INSERT);
         intent.setType("vnd.android.cursor.item/event");
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
@@ -175,8 +173,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
                     public void onResponse(JSONObject response){
                         Log.d(TAG,"response is:" +response.toString());
                         MessageResponse messageResponse = MessageResponse.fromJSONObjectResponse(response);
-                        messagesList.add(messageResponse);
-                        adapter.notifyDataSetChanged();
+                        addMessageObject(messageResponse);
 
                     }
                 },
