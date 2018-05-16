@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <TextView
+        android:id="@+id/rounded_view"
+        android:layout_width="270dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/button_back"
+        app:layout_constraintLeft_toRightOf="@id/chatbot_imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="16dp"/>
+
+    <ImageView
+        android:id="@+id/chatbot_imageView"
+        android:layout_width="33dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/star"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/email_icon"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/email_icon"
+        app:layout_constraintLeft_toLeftOf="@id/rounded_view"
+        app:layout_constraintTop_toTopOf="@id/rounded_view"/>
+
+    <TextView
+        android:id="@+id/email_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:layout_marginStart="8dp"
+        android:text="sithuaung@gmail.com"
+        android:layout_marginTop="12dp"
+        android:textColor="#263238"
+        android:textSize="18dp"
+        app:layout_constraintLeft_toRightOf="@id/email_icon"
+        app:layout_constraintTop_toTopOf="@id/rounded_view"/>
+
+    <ImageView
+        android:id="@+id/phn_icon"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="@id/rounded_view"
+        android:src="@drawable/phn_no"
+        app:layout_constraintTop_toBottomOf="@id/email_icon"/>
+
+    <TextView
+        android:id="@+id/phn_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="415-966-6223"
+        android:textColor="@color/darkGrey"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="@id/email_address"
+        app:layout_constraintTop_toTopOf="@id/phn_icon"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/reyclerview_suggestion_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/rounded_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </android.support.v7.widget.RecyclerView>
+</android.support.constraint.ConstraintLayout>
+
+

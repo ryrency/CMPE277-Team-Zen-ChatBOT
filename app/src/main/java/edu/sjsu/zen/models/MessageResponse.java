@@ -13,6 +13,7 @@ import java.util.List;
 public class MessageResponse {
     public static final String INSTRUCTOR_NAME = "instructor_name";
     public static final String INSTRUCTOR_EMAIL = "instructor_email";
+    public static final String INSTRUCTOR_PHNO = "instructor_phoneNo";
     public static final String DAY_OF_CLASS = "day";
     public static final String CLASS_START_TIME = "class_start_time";
     public static final String CLASS_END_TIME = "class_end_time";
@@ -78,16 +79,19 @@ public class MessageResponse {
                     return "Final Exam is on "+getString("due_date".replace("T"," at "));
                 else
                 return "Final Exam date has not been announced!";
-            case FINAL_EXAM_WEIGHTAGE:
-            case PROJECT_WEIGHTAGE:
-            case MID_TERM_WEIGHTAGE:
-            case ASSIGNMENT_WEIGHTAGE:
-            case LAB_WEIGHTAGE:
             case COURSE_GRADING: return getString("activity")+" weightage is "+getString("weightage");
             case REFERENCE_MATERIALS: return "References for "+getString("course_name")+ " are -\n"+getString("references");
             case UNKNOWN:return "Sorry, I do not understand your question";
             default: return "Sorry, I do not understand your question";
         }
+    }
+
+    public String getDisplayEmailAddress() {
+        return getString(INSTRUCTOR_EMAIL);
+    }
+    public String getDisplayPhnNo() {
+        return getString(INSTRUCTOR_PHNO);
+
     }
 
     private MessageResponse(int categoryType, JSONObject data) {

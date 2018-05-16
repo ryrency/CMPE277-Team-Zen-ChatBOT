@@ -25,7 +25,6 @@ import static android.support.v7.widget.RecyclerView.*;
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final String TAG = MessageAdapter.class.getSimpleName();
     private final int suggestionItemSpacing;
-
     final ArrayList<Object> suggestions = new ArrayList<>();
     private final ArrayList<Object> messagesList;
     //private final int USER1 = 0, USER2 = 1;
@@ -53,28 +52,11 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return 0;
         } else if (messagesList.get(position) instanceof MessageResponse) {
             Category category = ((MessageResponse) messagesList.get(position)).getCategory();
-            if(category == Category.INSTRUCTOR_PHONE_NO ||
-                    category == Category.INSTRUCTOR_NAME ||
-                    category == Category.INSTRUCTOR_EMAIL ||
-                    category == Category.INSTRUCTOR_OFFICE_HOURS ||
-                    category == Category.INSTRUCTOR_OFFICE_LOCATION ||
-                    category == Category.COURSE_NAME ||
-                    category == Category.COURSE_PRE_REQUIREMENTS ||
-                    category == Category.CLASS_LOCATION ||
-                    category == Category.CLASS_TIMINGS ||
-                    category == Category.COURSE_WEBSITE ||
-                    category == Category.PROJECT_DUE_DATE ||
-                    category == Category.MID_TERM_DUE_DATE ||
-                    category == Category.FINAL_EXAM_DUE_DATE ||
-                    category == Category.FINAL_EXAM_WEIGHTAGE ||
-                    category == Category.PROJECT_WEIGHTAGE ||
-                    category == Category.MID_TERM_WEIGHTAGE ||
-                    category == Category.ASSIGNMENT_WEIGHTAGE ||
-                    category == Category.COURSE_GRADING ||
-                    category == Category.QUIZZ_WEIGHTAGE ||
-                    category == Category.REFERENCE_MATERIALS ||
-                    category == Category.UNKNOWN)
+            if(category == Category.INSTRUCTOR_CONTACT)
                 {
+                return 2;
+            }
+            else  {
                 return 1;
             }
         }
@@ -85,16 +67,25 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType){
         switch (viewType) {
-        case 0:
+            case 0:
             // Inflate the custom layout
-            View userMessageView = layoutInflater.inflate(R.layout.item_message_user, viewGroup, false);
+                View userMessageView = layoutInflater.inflate
+                        (R.layout.item_message_user,
+                                viewGroup, false);
             //ViewHolder viewHolder1 = new ViewHolder1(userMessageView);
-            return new ViewHolder1(userMessageView);
+                return new ViewHolder1(userMessageView);
 
-        case 1:
-            View chatbotMessageView = layoutInflater.inflate(R.layout.item_message_chatbot, viewGroup, false);
-            return new ViewHolder2(chatbotMessageView);
+            case 1:
+                View chatbotMessageView = layoutInflater.inflate
+                        (R.layout.item_message_chatbot,
+                                viewGroup, false);
+                return new ViewHolder2(chatbotMessageView);
 
+            case 2:
+                View instructorContactView =  layoutInflater.inflate
+                    (R.layout.contact,
+                            viewGroup, false);
+                return new ViewHolder3(instructorContactView);
     }
     return null;
     }
@@ -113,8 +104,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 MessageResponse responseFromChatBot = (MessageResponse) messagesList.get(position);
                 vh2.bindData(responseFromChatBot);
                 break;
-            default:
+            case 2:
                 ViewHolder3 vh3 = (ViewHolder3)viewHolder;
+                MessageResponse contactInResponse = (MessageResponse) messagesList.get(position);
+                vh3.bindData(contactInResponse);
                 break;
         }
     }
@@ -177,8 +170,47 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class ViewHolder3 extends ViewHolder{
-        public ViewHolder3(View itemView){
+        private ImageView emailImageView;
+        private ImageView phnImageView;
+        private TextView emailAdressTextView;
+        private TextView phnNoTextView;
+        private RecyclerView suggestionsRecyclerView;
+        private SuggestionsAdapter suggestionAdapter;
+        private  LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+
+        ViewHolder3(View itemView){
             super(itemView);
+            phnImageView = (ImageView) itemView.findViewById(R.id.phn_icon);
+            emailImageView = (ImageView)itemView.findViewById(R.id.email_icon);
+            phnNoTextView = (TextView) itemView.findViewById(R.id.phn_no);
+            emailAdressTextView = (TextView)itemView.findViewById(R.id.email_address);
+            suggestionsRecyclerView = (RecyclerView)itemView.findViewById(R.id.reyclerview_suggestion_list);
+
+            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            suggestionsRecyclerView.setLayoutManager(layoutManager);
+            //suggestionsRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+            suggestionAdapter = new SuggestionsAdapter(context);
+            setSpaceBetweenSuggestions();
+            suggestionsRecyclerView.setAdapter(suggestionAdapter);
+        }
+
+        private void setSpaceBetweenSuggestions() {
+            RecyclerView.ItemDecoration decoration = new ItemDecoration() {
+                @Override
+                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, State state) {
+                    outRect.right = suggestionItemSpacing;
+                }
+            };
+
+            suggestionsRecyclerView.addItemDecoration(decoration);
+        }
+
+        void bindData(MessageResponse messageResponse) {
+            emailAdressTextView.setText(messageResponse.getDisplayEmailAddress());
+            phnNoTextView.setText(messageResponse.getDisplayPhnNo());
+            suggestionAdapter.setData(messageResponse);
+            suggestionAdapter.notifyDataSetChanged();
+
         }
 
     }
