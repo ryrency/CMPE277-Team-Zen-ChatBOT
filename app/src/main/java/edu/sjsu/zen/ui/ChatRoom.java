@@ -2,6 +2,7 @@ package edu.sjsu.zen.ui;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
@@ -45,6 +46,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
     private String courseContext;
     private RecyclerView recyclerView;
     private DrawerLayout mDrawerLayout;
+    private static final String GOOGLE_URL = " http://maps.google.co.in/maps?q= ";
 
 
     @Override
@@ -152,6 +154,15 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
                 setReminderForCourseActivities(dueDate,title);
             }
         }
+
+        else if(clickedSuggestion == Suggestion.NAVIGATE_TO_LOCATION) {
+            MessageQuery query = new MessageQuery(clickedSuggestion.getName());
+            addMessageObject(query);
+            String latitude = messageResponse.getString("latitude");
+            String longitude = messageResponse.getString("longitude");
+
+            navigateToLocation(latitude, longitude);
+        }
         else {
             MessageQuery query = new MessageQuery(clickedSuggestion.getName());
             addMessageObject(query);
@@ -164,6 +175,14 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         messagesList.add(messageObject);
         adapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(messagesList.size() - 1);
+    }
+
+    private void navigateToLocation(String latitude, String longitude) {
+        Uri mapUri = Uri.parse("geo:" + latitude + ',' + longitude +
+                "?q=" + latitude + "," + longitude );
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
     private void sendemail(String toField) {
@@ -195,6 +214,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         intent.putExtra(CalendarContract.Events.TITLE, title);
         startActivity(intent);
     }
+
 
     @Override
     public void onClick(View v) {

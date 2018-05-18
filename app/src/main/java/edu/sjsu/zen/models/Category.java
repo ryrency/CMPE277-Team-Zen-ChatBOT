@@ -18,7 +18,7 @@ public enum Category {
             Suggestion.INSTRUCTOR_OFFICE_HOURS,Suggestion.INSTRUCTOR_OFFICE_LOCATION)),
     INSTRUCTOR_PHONE_NO(8, Arrays.asList(Suggestion.INSTRUCTOR_NAME,Suggestion.INSTRUCTOR_EMAIL,
             Suggestion.INSTRUCTOR_OFFICE_HOURS,Suggestion.INSTRUCTOR_OFFICE_LOCATION)),
-    INSTRUCTOR_OFFICE_LOCATION(7, Arrays.asList(Suggestion.INSTRUCTOR_CONTACT,
+    INSTRUCTOR_OFFICE_LOCATION(7, Arrays.asList(Suggestion.NAVIGATE_TO_LOCATION,Suggestion.INSTRUCTOR_CONTACT,
             Suggestion.INSTRUCTOR_NAME, Suggestion.INSTRUCTOR_OFFICE_HOURS)),
     INSTRUCTOR_OFFICE_HOURS(6, Arrays.asList(Suggestion.INSTRUCTOR_CONTACT,
             Suggestion.INSTRUCTOR_OFFICE_LOCATION)),
@@ -30,7 +30,7 @@ public enum Category {
     CLASS_TIMINGS(11,Arrays.asList(Suggestion.SET_REMINDER, Suggestion.CLASS_LOCATION, Suggestion.COURSE_PRE_REQUIREMENTS,
 
             Suggestion.REFERENCE_MATERIALS)),
-    CLASS_LOCATION(13,Arrays.asList(Suggestion.CLASS_TIMINGS,Suggestion.INSTRUCTOR_CONTACT, Suggestion.INSTRUCTOR_NAME,
+    CLASS_LOCATION(13,Arrays.asList(Suggestion.NAVIGATE_TO_LOCATION,Suggestion.CLASS_TIMINGS,Suggestion.INSTRUCTOR_CONTACT, Suggestion.INSTRUCTOR_NAME,
             Suggestion.COURSE_WEBSITE)),
     COURSE_WEBSITE(12, Arrays.asList(Suggestion.CLASS_TIMINGS,  Suggestion.CLASS_LOCATION, Suggestion.INSTRUCTOR_CONTACT,
             Suggestion.REFERENCE_MATERIALS)),

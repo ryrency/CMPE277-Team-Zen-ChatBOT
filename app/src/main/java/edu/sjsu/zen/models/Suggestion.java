@@ -12,6 +12,7 @@ public enum Suggestion {
     INSTRUCTOR_CONTACT("instructor contact", 0),
     INSTRUCTOR_PHONE_NO("instructor phone number",0),
     INSTRUCTOR_OFFICE_LOCATION("instructor office location", 0),
+    NAVIGATE_TO_LOCATION("Navigate to location", R.drawable.navigation),
     INSTRUCTOR_OFFICE_HOURS("instructor office hours", 0),
     COURSE_NAME("about course",0),
     COURSE_PRE_REQUIREMENTS("course pre-requisites",0),

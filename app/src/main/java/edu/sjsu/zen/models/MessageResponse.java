@@ -18,6 +18,7 @@ public class MessageResponse {
     public static final String CLASS_START_TIME = "class_start_time";
     public static final String CLASS_END_TIME = "class_end_time";
     public static final String DUE_DATE = "due_date";
+    public static final String OFFICE_LOCATION = "office_location";
 
 
     private int categoryType;
@@ -46,7 +47,8 @@ public class MessageResponse {
     public String getDisplayText() {
         Category category = getCategory();
         switch (category){
-            case INSTRUCTOR_OFFICE_LOCATION: return "Office Location for " + getString(INSTRUCTOR_NAME) + " is " + getString("office_location");
+            case INSTRUCTOR_OFFICE_LOCATION: return
+                    getString(MessageResponse.INSTRUCTOR_NAME) + " office is at " + getString(OFFICE_LOCATION);
             case INSTRUCTOR_NAME:return getString("instructor_name");
             case INSTRUCTOR_PHONE_NO:
                 if (!getString("phn_no").equals("Office Phone No not shared"))
@@ -61,7 +63,7 @@ public class MessageResponse {
             case COURSE_PRE_REQUIREMENTS: return getString("course_name")+" pre-requirements are "+getString("pre_requirement");
             case CLASS_TIMINGS: return "Classes are on "+getString(DAY_OF_CLASS)+" from "+getString(CLASS_START_TIME)
                     + " to "+ getString(CLASS_END_TIME);
-            case CLASS_LOCATION:return "The course is held at "+getString("class location");
+            case CLASS_LOCATION:return "Class held at " + getString("class location");
             case COURSE_WEBSITE:return "The course website is "+getString("course_website");
             case PROJECT_DUE_DATE:
                 if (getString("due_date") != null)
