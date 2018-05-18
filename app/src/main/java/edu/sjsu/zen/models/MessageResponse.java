@@ -18,6 +18,8 @@ public class MessageResponse {
     public static final String CLASS_START_TIME = "class_start_time";
     public static final String CLASS_END_TIME = "class_end_time";
     public static final String DUE_DATE = "due_date";
+    public static final String OFFICE_LOCATION = "office_location";
+    public static final String COURSE_NAME = "course_name";
 
 
     private int categoryType;
@@ -46,41 +48,41 @@ public class MessageResponse {
     public String getDisplayText() {
         Category category = getCategory();
         switch (category){
-            case INSTRUCTOR_OFFICE_LOCATION: return "Office Location for " + getString(INSTRUCTOR_NAME) + " is " + getString("office_location");
-            case INSTRUCTOR_NAME:return getString("instructor_name");
+            case INSTRUCTOR_OFFICE_LOCATION: return "Office Location for " + getString(INSTRUCTOR_NAME) + " is " + getString(OFFICE_LOCATION);
+            case INSTRUCTOR_NAME:return getString(INSTRUCTOR_NAME);
             case INSTRUCTOR_PHONE_NO:
                 if (!getString("phn_no").equals("Office Phone No not shared"))
-                    return getString("instructor_name") +"'s Phone No. is "+getString("phn_no");
+                    return getString(INSTRUCTOR_NAME) +"'s Phone No. is "+getString("phn_no");
                 else
-                    return getString("instructor_name") +"'s Phone No. has not been shared";
-            case INSTRUCTOR_EMAIL:return getString("instructor_email");
-            case INSTRUCTOR_OFFICE_HOURS: return  getString("instructor_name")+"'s Office Hours are from - "+
+                    return getString(INSTRUCTOR_NAME) +"'s Phone No. has not been shared";
+            case INSTRUCTOR_EMAIL:return getString(INSTRUCTOR_EMAIL);
+            case INSTRUCTOR_OFFICE_HOURS: return  getString(INSTRUCTOR_NAME)+"'s Office Hours are from - "+
                     getString("office_hours_start_time") + " - "
                     +getString("office_hours_end_time");
-            case COURSE_NAME: return getString("course_name") + " - " + getString("description");
-            case COURSE_PRE_REQUIREMENTS: return getString("course_name")+" pre-requirements are "+getString("pre_requirement");
+            case COURSE_NAME: return getString(COURSE_NAME) + " - " + getString("description");
+            case COURSE_PRE_REQUIREMENTS: return getString(COURSE_NAME)+" pre-requirements are "+getString("pre_requirement");
             case CLASS_TIMINGS: return "Classes are on "+getString(DAY_OF_CLASS)+" from "+getString(CLASS_START_TIME)
                     + " to "+ getString(CLASS_END_TIME);
             case CLASS_LOCATION:return "The course is held at "+getString("class location");
             case COURSE_WEBSITE:return "The course website is "+getString("course_website");
             case PROJECT_DUE_DATE:
-                if (getString("due_date") != null)
-                    return "Project due date is "+getString("due_date").replace("T"," at ");
+                if (getString(DUE_DATE) != null)
+                    return "Project due date is "+getString(DUE_DATE).replace("T"," at ");
                 else
                     return "Project due date has not been announced!";
 
             case MID_TERM_DUE_DATE:
-                if (getString("due_date") != null)
-                    return "Mid Term is on "+getString("due_date").replace("T"," at ");
+                if (getString(DUE_DATE) != null)
+                    return "Mid Term is on "+getString(DUE_DATE).replace("T"," at ");
                 else
                     return "Mid term date has not been announced!";
             case FINAL_EXAM_DUE_DATE:
-                if (getString("due_date") != null)
-                    return "Final Exam is on "+getString("due_date".replace("T"," at "));
+                if (getString(DUE_DATE) != null)
+                    return "Final Exam is on "+getString(DUE_DATE.replace("T"," at "));
                 else
                 return "Final Exam date has not been announced!";
             case COURSE_GRADING: return getString("activity")+" weightage is "+getString("weightage");
-            case REFERENCE_MATERIALS: return "References for "+getString("course_name")+ " are -\n"+getString("references");
+            case REFERENCE_MATERIALS: return "References for "+getString(COURSE_NAME)+ " are -\n"+getString("references");
             case UNKNOWN:return "Sorry, I do not understand your question";
             default: return "Sorry, I do not understand your question";
         }
