@@ -24,7 +24,6 @@
     <activity android:name=".ui.ChatRoom"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:label="Chatroom">
-
     </activity>
 </application>
 
