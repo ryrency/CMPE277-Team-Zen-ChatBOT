@@ -83,7 +83,10 @@ public class MessageResponse {
                     return "Final Exam is on "+getString(DUE_DATE.replace("T"," at "));
                 else
                 return "Final Exam date has not been announced!";
-            case COURSE_GRADING: return getString("activity")+" weightage is "+getString("weightage");
+            case COURSE_GRADING:
+                if (getString("activity") != null)
+                    return getString("activity")+" weightage is "+getString("weightage");
+                return "Sorry I do not understand, but I am learning. You can ask me for any specific activity weightage";
             case REFERENCE_MATERIALS: return "References for "+getString(COURSE_NAME)+ " are -\n"+getString("references");
             case UNKNOWN:return "Sorry, I do not understand your question";
             default: return "Sorry, I do not understand your question";
