@@ -60,7 +60,6 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         /*Drawer Navigation set up*/
         setNavigationLayout();
 
-        Bundle extras = getIntent().getExtras();
 
         recyclerView = (RecyclerView)findViewById(R.id.reyclerview_message_list);
         adapter = new MessageAdapter(messagesList,this);

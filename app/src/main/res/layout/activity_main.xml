@@ -38,7 +38,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="25dp"
-        android:text="You're all set! "
+        android:text="Great to see you! "
         android:textAlignment="center"
         android:textColor="@color/darkerGrey"
         android:textSize="25dp"
@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@id/textView2" />
 
     <Button
-        android:id="@+id/main_273_01_button"
+        android:id="@+id/main_lets_chat_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
