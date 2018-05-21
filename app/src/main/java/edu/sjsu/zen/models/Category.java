@@ -10,6 +10,9 @@ import java.util.List;
 
 public enum Category {
     UNKNOWN(-1, new ArrayList<Suggestion>()),
+    GREETING_HI(1, Arrays.asList(Suggestion.EMAIL_INSTRUCTOR, Suggestion.INSTRUCTOR_PHONE_NO, Suggestion.INSTRUCTOR_OFFICE_HOURS,
+            Suggestion.INSTRUCTOR_OFFICE_LOCATION,Suggestion.INSTRUCTOR_NAME)),
+    GREETING_BYE(2, new ArrayList<Suggestion>()),
     INSTRUCTOR_EMAIL(4, Arrays.asList(Suggestion.EMAIL_INSTRUCTOR, Suggestion.INSTRUCTOR_PHONE_NO, Suggestion.INSTRUCTOR_OFFICE_HOURS,
             Suggestion.INSTRUCTOR_OFFICE_LOCATION,Suggestion.INSTRUCTOR_NAME)),
     INSTRUCTOR_NAME(5, Arrays.asList(Suggestion.INSTRUCTOR_EMAIL,Suggestion.INSTRUCTOR_PHONE_NO,
@@ -73,6 +76,8 @@ public enum Category {
     public static Category fromCategoryTypeInt(int categoryTypeInt) {
 
         switch(categoryTypeInt){
+            case 1:  return GREETING_HI;
+            case 2:  return GREETING_BYE;
             case 3:  return INSTRUCTOR_CONTACT;
             case 4:  return INSTRUCTOR_EMAIL;
             case 5:  return INSTRUCTOR_NAME;

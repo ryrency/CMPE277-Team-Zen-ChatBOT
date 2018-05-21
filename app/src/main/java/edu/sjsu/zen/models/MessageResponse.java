@@ -47,6 +47,8 @@ public class MessageResponse {
     public String getDisplayText() {
         Category category = getCategory();
         switch (category){
+            case GREETING_HI: return getString("responseText");
+            case GREETING_BYE: return getString("responseText");
             case INSTRUCTOR_OFFICE_LOCATION: return
                     getString(MessageResponse.INSTRUCTOR_NAME) + " office is at " + getString(OFFICE_LOCATION);
             case INSTRUCTOR_NAME:return getString("instructor_name");

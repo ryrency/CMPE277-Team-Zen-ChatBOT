@@ -231,8 +231,9 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
                     null,
                     new Response.Listener<JSONObject>() {
                         public void onResponse(JSONObject response){
-                            Log.d(TAG,"response is:" +response.toString());
+                            Log.d(TAG,"response is:" + response.toString());
                             MessageResponse messageResponse = MessageResponse.fromJSONObjectResponse(response);
+                            Log.d(TAG, "received message response with category: " + messageResponse.getCategory().name());
                             addMessageObject(messageResponse);
 
                         }
