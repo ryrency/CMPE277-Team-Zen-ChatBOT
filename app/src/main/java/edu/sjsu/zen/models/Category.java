@@ -10,8 +10,7 @@ import java.util.List;
 
 public enum Category {
     UNKNOWN(-1, new ArrayList<Suggestion>()),
-    GREETING_HI(1, Arrays.asList(Suggestion.EMAIL_INSTRUCTOR, Suggestion.INSTRUCTOR_PHONE_NO, Suggestion.INSTRUCTOR_OFFICE_HOURS,
-            Suggestion.INSTRUCTOR_OFFICE_LOCATION,Suggestion.INSTRUCTOR_NAME)),
+    GREETING_HI(1, Arrays.asList(Suggestion.CLASS_LOCATION,Suggestion.MID_TERM_DUE_DATE,Suggestion.PROJECT_WEIGHTAGE,Suggestion.INSTRUCTOR_NAME)),
     GREETING_BYE(2, new ArrayList<Suggestion>()),
     INSTRUCTOR_EMAIL(4, Arrays.asList(Suggestion.EMAIL_INSTRUCTOR, Suggestion.INSTRUCTOR_PHONE_NO, Suggestion.INSTRUCTOR_OFFICE_HOURS,
             Suggestion.INSTRUCTOR_OFFICE_LOCATION,Suggestion.INSTRUCTOR_NAME)),

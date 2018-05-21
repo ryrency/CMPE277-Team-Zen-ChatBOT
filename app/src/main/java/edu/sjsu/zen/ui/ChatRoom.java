@@ -61,9 +61,6 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         setNavigationLayout();
 
         Bundle extras = getIntent().getExtras();
-        courseContext = extras.getString("COURSE_CONTEXT");
-        MessageQuery query = new MessageQuery("course name "+courseContext);
-        sendRequestAndprintResponse(query);
 
         recyclerView = (RecyclerView)findViewById(R.id.reyclerview_message_list);
         adapter = new MessageAdapter(messagesList,this);
@@ -269,7 +266,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
         try{
             JsonObjectRequest request = new JsonObjectRequest(
                     Request.Method.GET,
-                    "http://10.0.2.2:5000/classify?text="+ query.getQuery(),
+                    VolleySingleton.ZEN_AWS_ENDPOINT + "/classify?text="+ query.getQuery(),
                     null,
                     new Response.Listener<JSONObject>() {
                         public void onResponse(JSONObject response){
