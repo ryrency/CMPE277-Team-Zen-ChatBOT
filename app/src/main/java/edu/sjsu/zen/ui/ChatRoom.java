@@ -123,7 +123,11 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener{
 
                     @Override
                     public void onDrawerClosed(View drawerView) {
-                        // Respond when the drawer is closed
+                        if (courseContext == null){
+                            courseContext = "273-01";
+                            MessageQuery query = new MessageQuery("course name "+courseContext);
+                            sendRequestAndprintResponse(query);
+                        }
                     }
 
                     @Override
