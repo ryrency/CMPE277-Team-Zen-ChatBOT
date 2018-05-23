@@ -1,1 +1,1 @@
-Zen Course Assistant ChatBOT
+<b>Zen Course Assistant ChatBOT</b>
