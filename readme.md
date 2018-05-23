@@ -19,8 +19,8 @@ separate greensheets for each course. </p>
 4. click from suggestion questions / type the question you want answered.
 
 
-<b>Technology Stack</b>
-Frontend :
+<b>Technology Stack</b><br>
+Frontend :<br>
 1. Android Studio - IDE for android programming.
 2. Recyclerview - Vertical recycler has been used as the main chatroom for users and response from chatbot. Horizontal recyclerview has been used for displaying suggestions from chatbot.
 3. Recyclerview ItemDecoration - for managing horizontal spacing between each suggestion button.
@@ -33,8 +33,7 @@ Frontend :
 10. JSON Parsing (to prepare response from server)
 11. Sketch software was used to create app designs.
 
-Backend:
-
+Backend:<br>
 1. Server uses linear classification machine learning algorithm to train and test the model.
 2. This chatbot is specific to SJSU courses greensheet and using pre-trained models was not an option.
 3. Dataset: Main challenge was to create the questionnaire dataset to train and test the model. For this, we used JSpeech Grammar Format(JSGF) to create various grammer representation files. These files then used python based jsgf parser to inflate and create dataset. 
@@ -46,9 +45,9 @@ Backend:
 
 
 <b>Dependencies (included in gradle file)</b><br>
-com.android.support:appcompat-v7:26.1.0'
-com.android.support.constraint:constraint-layout:1.0.2'
-com.android.support:recyclerview-v7:26.1.0'
+com.android.support:appcompat-v7:26.1.0<br>
+com.android.support.constraint:constraint-layout:1.0.2<br>
+com.android.support:recyclerview-v7:26.1.0<br>
 com.android.support:design:26.1.0 (For Navigation Drawer)<br>
 
 
