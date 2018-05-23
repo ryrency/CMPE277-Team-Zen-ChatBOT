@@ -18,6 +18,7 @@ separate greensheets for each course. </p>
 3. Select the course you want the details of (from the open Navigation Drawer)
 4. click from suggestion questions / type the question you want answered.
 
+<br>
 
 <b>Technology Stack</b><br>
 Frontend :<br>
@@ -33,7 +34,7 @@ Frontend :<br>
 10. JSON Parsing (to prepare response from server)
 11. Sketch software was used to create app designs.
 
-Backend:<br>
+Backend:
 1. Server uses linear classification machine learning algorithm to train and test the model.
 2. This chatbot is specific to SJSU courses greensheet and using pre-trained models was not an option.
 3. Dataset: Main challenge was to create the questionnaire dataset to train and test the model. For this, we used JSpeech Grammar Format(JSGF) to create various grammer representation files. These files then used python based jsgf parser to inflate and create dataset. 
